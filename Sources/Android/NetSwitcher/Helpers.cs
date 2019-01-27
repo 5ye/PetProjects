@@ -12,7 +12,7 @@ using Android.Views;
 using Android.Widget;
 using JetBrains.Annotations;
 
-namespace TvSwitcher
+namespace NetSwitcher
 {
     /// <summary>
     /// Утилиты

@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("TvSwitcher.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("NetSwitcher.Resource", IsApplication=true)]
 
-namespace TvSwitcher
+namespace NetSwitcher
 {
 	
 	
@@ -48,10 +48,13 @@ namespace TvSwitcher
 			public const int Icon = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int tvsmall = 2130837505;
+			public const int nas = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int tvsmall2 = 2130837506;
+			public const int tvOff = 2130837506;
+			
+			// aapt resource value: 0x7f020003
+			public const int tvOn = 2130837507;
 			
 			static Drawable()
 			{
@@ -66,8 +69,8 @@ namespace TvSwitcher
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f05000b
-			public const int buttonRefresh = 2131034123;
+			// aapt resource value: 0x7f05000e
+			public const int buttonRefresh = 2131034126;
 			
 			// aapt resource value: 0x7f050002
 			public const int imageView1 = 2131034114;
@@ -77,6 +80,9 @@ namespace TvSwitcher
 			
 			// aapt resource value: 0x7f050008
 			public const int imageView3 = 2131034120;
+			
+			// aapt resource value: 0x7f05000b
+			public const int imageView4 = 2131034123;
 			
 			// aapt resource value: 0x7f050000
 			public const int linearLayout1 = 2131034112;
@@ -93,8 +99,11 @@ namespace TvSwitcher
 			// aapt resource value: 0x7f05000a
 			public const int linearLayout5 = 2131034122;
 			
-			// aapt resource value: 0x7f05000c
-			public const int linearLayoutError = 2131034124;
+			// aapt resource value: 0x7f05000d
+			public const int linearLayout6 = 2131034125;
+			
+			// aapt resource value: 0x7f05000f
+			public const int linearLayoutError = 2131034127;
 			
 			// aapt resource value: 0x7f050003
 			public const int switch1 = 2131034115;
@@ -105,8 +114,11 @@ namespace TvSwitcher
 			// aapt resource value: 0x7f050009
 			public const int switch3 = 2131034121;
 			
-			// aapt resource value: 0x7f05000d
-			public const int textView1 = 2131034125;
+			// aapt resource value: 0x7f05000c
+			public const int switch4 = 2131034124;
+			
+			// aapt resource value: 0x7f050010
+			public const int textView1 = 2131034128;
 			
 			static Id()
 			{

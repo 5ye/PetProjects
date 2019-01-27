@@ -6,7 +6,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 
-namespace TvSwitcher
+namespace NetSwitcher
 {
     /// <summary>
     /// Утилиты работы с роутером
@@ -48,7 +48,7 @@ namespace TvSwitcher
         /// </summary>
         /// <returns></returns>
         [NotNull]
-        private static string RequestMacsPage()
+        private static string RequestBlockedMacsAndIpsPage()
         {
             var request = new HttpWebRequest(new Uri("http://192.168.1.1/FilterIPMAC.asp", UriKind.Absolute))
             {
@@ -73,14 +73,20 @@ namespace TvSwitcher
         private const string VOID_MAC = "00:00:00:00:00:00";
 
         /// <summary>
+        /// Пустой ничего не значащий IP-адрес
+        /// </summary>
+        private const string VOID_IP = "0";
+
+        /// <summary>
         /// Распарсить страницу с MAC-адресами
         /// </summary>
         /// <param name="macsPageContent"></param>
         /// <returns></returns>
         [NotNull, ItemNotNull]
-        private static IEnumerable<string> ParseMacsOnPage([NotNull] string macsPageContent)
+        private static IEnumerable<string> ParseMacsAndIpsOnPage([NotNull] string macsPageContent)
         {
             var regExp = new Regex(MAC_REGEX_PATTERN);
+            // Ищем Mac-адреса
             var found = regExp.Match(macsPageContent);
             while (found.Success)
             {
@@ -88,6 +94,19 @@ namespace TvSwitcher
                     yield return found.Value;
                 found = found.NextMatch();
             }
+            // ищем IP-адреса
+            for (int i = 1; i < 6; i++)
+            {
+                var index = macsPageContent.IndexOf($"<div class=\"label\">IP 0{i}</div>", StringComparison.Ordinal);
+                var valuePrefix = "value=\"";
+                var valueIndexLeft = macsPageContent.IndexOf(valuePrefix, index, StringComparison.Ordinal);
+                var valueIndexRight = macsPageContent.IndexOf("\"", valueIndexLeft + valuePrefix.Length, StringComparison.Ordinal);
+                var ipValue = macsPageContent.Substring(valueIndexLeft + valuePrefix.Length,
+                    valueIndexRight - valueIndexLeft - valuePrefix.Length);
+                if (ipValue != VOID_IP)
+                    yield return ipValue;
+            }
+
         }
 
         /// <summary>
@@ -95,36 +114,40 @@ namespace TvSwitcher
         /// </summary>
         /// <returns></returns>
         [NotNull, ItemNotNull]
-        public static IEnumerable<string> ReadLockedMacs()
+        public static IEnumerable<string> ReadLockedMacsAndIps()
         {
             ActivateFilter();
-            return ParseMacsOnPage(RequestMacsPage());
+            return ParseMacsAndIpsOnPage(RequestBlockedMacsAndIpsPage());
         }
 
         /// <summary>
         /// Post-запрос на установку фильтров
         /// </summary>
         private const string APPLY_FILTERS_POST_DATA_PATTERN =
-            "submit_button=FilterIPMAC&action=ApplyTake&change_action=&submit_type=&filter_ip_value=&filter_mac_value={0}&ip0=0&ip1=0&ip2=0&ip3=0&ip4=0&ip5=0&ip_range0_0=0&ip_range0_1=0&ip_range0_2=0&ip_range0_3=0&ip_range0_4=0&ip_range0_5=0&ip_range0_6=0&ip_range0_7=0&ip_range1_0=0&ip_range1_1=0&ip_range1_2=0&ip_range1_3=0&ip_range1_4=0&ip_range1_5=0&ip_range1_6=0&ip_range1_7=0";
+            "submit_button=FilterIPMAC&action=ApplyTake&change_action=&submit_type=&filter_ip_value=&filter_mac_value={0}{1}&ip_range0_0=0&ip_range0_1=0&ip_range0_2=0&ip_range0_3=0&ip_range0_4=0&ip_range0_5=0&ip_range0_6=0&ip_range0_7=0&ip_range1_0=0&ip_range1_1=0&ip_range1_2=0&ip_range1_3=0&ip_range1_4=0&ip_range1_5=0&ip_range1_6=0&ip_range1_7=0";
 
         /// <summary>
-        /// Установить
+        /// Записать заблоченные Mac-адреса или Ip
         /// </summary>
         /// <param name="values"></param>
-        public static void WriteLockedMacs([NotNull, ItemNotNull]IEnumerable<string> values)
+        public static void WriteLockedMacsOrIps([NotNull, ItemNotNull]string[] values)
         {
             var request = new HttpWebRequest(new Uri("http://192.168.1.1/apply.cgi", UriKind.Absolute))
             {
                 Method = "POST",
                 Referer = "http://192.168.1.1/apply.cgi"
             };
-            var macFilterValues = new List<string>(values);
+            var macFilterValues = new List<string>(values.Where(x => x.Contains(":")));
             while (macFilterValues.Count < 8)
                 macFilterValues.Add(VOID_MAC);
-            var postData = string.Format(APPLY_FILTERS_POST_DATA_PATTERN, string.Join(string.Empty,
-                macFilterValues
-                    .Where(x => x != null)
-                    .Select((x, index) => $"&mac{index}={x.Replace(":", "%3A")}").AssertNull()));
+            var ipFilterValues = new List<string>(values.Where(x => !x.Contains(":")));
+            while (ipFilterValues.Count < 6)
+                ipFilterValues.Add(VOID_IP);
+            var postData = string.Format(APPLY_FILTERS_POST_DATA_PATTERN, 
+                string.Join(string.Empty,
+                    macFilterValues.Select((x, index) => $"&mac{index}={x.Replace(":", "%3A")}").AssertNull()),
+                string.Join(string.Empty, 
+                    ipFilterValues.Select((x, index) => $"&ip{index}={x}")));
             request.Headers.VoidAssertNull();
             request.Headers.Add("Authorization", _authHeaderValue);
             request.AppendPostData(postData);

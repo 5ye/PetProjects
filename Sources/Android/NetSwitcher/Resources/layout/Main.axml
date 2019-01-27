@@ -10,7 +10,7 @@
         p1:layout_height="80dp"
         p1:id="@+id/linearLayout2">
         <ImageView
-            p1:src="@drawable/tvsmall2"
+            p1:src="@drawable/tvOff"
             p1:layout_width="wrap_content"
             p1:layout_height="match_parent"
             p1:id="@+id/imageView1" />
@@ -29,7 +29,7 @@
         p1:layout_height="80dp"
         p1:id="@+id/linearLayout3">
         <ImageView
-            p1:src="@drawable/tvsmall2"
+            p1:src="@drawable/tvoff"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/imageView2" />
@@ -48,7 +48,7 @@
         p1:layout_height="80dp"
         p1:id="@+id/linearLayout4">
         <ImageView
-            p1:src="@drawable/tvsmall2"
+            p1:src="@drawable/tvOff"
             p1:layout_width="wrap_content"
             p1:layout_height="match_parent"
             p1:id="@+id/imageView3" />
@@ -56,14 +56,33 @@
             p1:layout_width="wrap_content"
             p1:layout_height="match_parent"
             p1:id="@+id/switch3"
-            p1:text="Телевизор в спальне"
+            p1:text="Телевизор в детском зале"
+            p1:layout_gravity="right" />
+    </LinearLayout>
+    <LinearLayout
+        p1:orientation="horizontal"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="80dp"
+        p1:id="@+id/linearLayout5">
+        <ImageView
+            p1:src="@drawable/nas"
+            p1:layout_width="wrap_content"
+            p1:layout_height="match_parent"
+            p1:id="@+id/imageView4" />
+        <Switch
+            p1:layout_width="wrap_content"
+            p1:layout_height="match_parent"
+            p1:id="@+id/switch4"
+            p1:text="NAS-сервер"
             p1:layout_gravity="right" />
     </LinearLayout>
     <LinearLayout
         p1:orientation="vertical"
         p1:layout_width="match_parent"
         p1:layout_height="54.5dp"
-        p1:id="@+id/linearLayout5">
+        p1:id="@+id/linearLayout6">
         <Button
             p1:text="Обновить"
             p1:layout_width="200dp"
