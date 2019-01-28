@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:p1="http://schemas.android.com/apk/res/android"
+	p1:orientation="vertical"
+	p1:layout_width="match_parent"
+	p1:layout_height="match_parent"
+	p1:id="@+id/linearLayoutRoot"
+	p1:minWidth="25px"
+	p1:minHeight="25px"
+	p1:background="#ff757575">
+	<RadioGroup
+		p1:layout_margin="20px"
+		p1:minWidth="25px"
+		p1:minHeight="25px"
+		p1:layout_width="match_parent"
+		p1:layout_height="wrap_content"
+		p1:id="@+id/radioGroup1">
+		<RadioButton
+			p1:layout_width="wrap_content"
+			p1:layout_height="wrap_content"
+			p1:checked="true"
+			p1:text="Учим перевод на русский"
+			p1:id="@+id/radioButton1" />
+		<RadioButton
+			p1:layout_width="wrap_content"
+			p1:layout_height="wrap_content"
+			p1:text="Учим перевод на английский"
+			p1:id="@+id/radioButton2" />
+	</RadioGroup>
+	<ScrollView
+		p1:minWidth="25px"
+		p1:minHeight="25px"
+		p1:layout_width="match_parent"
+		p1:layout_height="match_parent"
+		p1:id="@+id/scrollView1">
+		<LinearLayout
+			p1:orientation="vertical"
+			p1:minWidth="25px"
+			p1:minHeight="25px"
+			p1:layout_width="match_parent"
+			p1:layout_height="wrap_content"
+			p1:id="@+id/linearLayoutMenuButtons" >
+			<Button
+				p1:text="Случайные 20 слов"
+				p1:layout_width="match_parent"
+				p1:layout_height="wrap_content"
+				p1:id="@+id/button20Words"
+				p1:layout_marginHorizontal="20px" />
+			<Button
+				p1:text="Все слова"
+				p1:layout_width="match_parent"
+				p1:layout_height="wrap_content"
+				p1:layout_marginHorizontal="20px"
+				p1:id="@+id/buttonAllWords" />
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>
