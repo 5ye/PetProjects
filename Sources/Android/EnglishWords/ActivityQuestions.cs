@@ -27,7 +27,7 @@ namespace EnglishWords
                 FindViewById<TextView>(Resource.Id.textViewWord).Text = _runningTest.CurrentQuestion.Word.ToUpperInvariant();
                 var id = 1;
                 foreach (var currentQuestionAnswer in _runningTest.CurrentQuestion.Answers)
-                    FindViewById<Button>(Helpers.GetIdByResourceName($"buttonAnswer{id++}")).Text = currentQuestionAnswer;
+                    FindViewById<Button>(Helpers.GetIdByResourceName($"buttonAnswer{id++}")).Text = currentQuestionAnswer.value;
                 FindViewById<TextView>(Resource.Id.textViewBottomProgress).Text = $"Вопрос {_runningTest.QuestionIndex + 1} из {_runningTest.QuestionsCount}";
             }
         }

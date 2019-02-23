@@ -20,7 +20,7 @@ namespace EnglishWords
         /// Ответы на слово
         /// </summary>
         [NotNull]
-        public readonly string[] Answers;
+        public readonly (string value, string valueTranslate)[] Answers;
 
         /// <summary>
         /// Индекс правильного ответа
@@ -30,7 +30,7 @@ namespace EnglishWords
         /// <summary>
         /// Ответ
         /// </summary>
-        private int? _answer; 
+        private int? _answerIndex; 
 
         /// <summary>
         /// Зарегистировать ответ
@@ -39,13 +39,32 @@ namespace EnglishWords
         /// <returns></returns>
         public void RegisterAnswer(int value)
         {
-            _answer = value;
+            _answerIndex = value;
         }
 
         /// <summary>
         /// Ответ правильный
         /// </summary>
-        public bool AnswerIsOk => _answer == _rightIndex;
+        public bool AnswerIsOk => _answerIndex == _rightIndex;
+
+        /// <summary>
+        /// Правильный ответ
+        /// </summary>
+        public string RightAnswer => Answers[_rightIndex].value;
+
+        /// <summary>
+        /// Выбранный ответ
+        /// </summary>
+        public (string value, string valueTranslate) SelectedAnswer
+        {
+            get
+            {
+                if (_answerIndex == null)
+                    throw new Exception("Обращение к индексу ответа до его инициализации!");
+                return Answers[_answerIndex.Value];
+            }
+
+        }
 
         /// <summary>
         /// Создание вопроса
@@ -53,17 +72,17 @@ namespace EnglishWords
         /// <param name="word"></param>
         /// <param name="answer"></param>
         /// <param name="trashAnswers"></param>
-        public TestQuestion([NotNull] string word, [NotNull]string answer, [NotNull, ItemNotNull]string[] trashAnswers)
+        public TestQuestion([NotNull] string word, [NotNull]string answer, [NotNull](string value, string valueTranslate)[] trashAnswers)
         {
             Word = word;
-            Answers = new string[trashAnswers.Length + 1];
+            Answers = new (string, string)[trashAnswers.Length + 1];
             _rightIndex = Helpers.Rnd.Next(Answers.Length);
             for (int i = 0; i < Answers.Length; i++)
             {
                 if (i < _rightIndex)
                     Answers[i] = trashAnswers[i];
                 if (i == _rightIndex)
-                    Answers[i] = answer;
+                    Answers[i] = (answer, word);
                 if (i > _rightIndex)
                     Answers[i] = trashAnswers[i - 1];
             }
@@ -200,11 +219,11 @@ namespace EnglishWords
             {
                 var word = kind == TestKind.WordIsEnglish ? pair.eng : pair.rus;
                 var answer = kind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
-                var randomAnswers = new HashSet<string>();
+                var randomAnswers = new HashSet<(string, string)>();
                 while (randomAnswers.Count < 3)
                 {
                     var newWord = this.GetRandomWord(kind);
-                    if (newWord == answer)
+                    if (newWord.value == answer)
                         continue;
                     randomAnswers.Add(newWord);
                 }
@@ -226,11 +245,11 @@ namespace EnglishWords
             {
                 var word = kind == TestKind.WordIsEnglish ? pair.eng : pair.rus;
                 var answer = kind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
-                var randomAnswers = new HashSet<string>();
+                var randomAnswers = new HashSet<(string, string)>();
                 while (randomAnswers.Count < 3)
                 {
                     var newWord = this.GetRandomWord(kind);
-                    if (newWord == answer)
+                    if (newWord.value == answer)
                         continue;
                     randomAnswers.Add(newWord);
                 }
@@ -255,11 +274,11 @@ namespace EnglishWords
             {
                 var word = kind == TestKind.WordIsEnglish ? pair.eng : pair.rus;
                 var answer = kind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
-                var randomAnswers = new HashSet<string>();
+                var randomAnswers = new HashSet<(string, string)>();
                 while (randomAnswers.Count < 3)
                 {
                     var newWord = chapter.GetRandomWord(kind);
-                    if (newWord == answer)
+                    if (newWord.value == answer)
                         continue;
                     randomAnswers.Add(newWord);
                 }

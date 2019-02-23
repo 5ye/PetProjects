@@ -1,14 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using JetBrains.Annotations;
 
 namespace EnglishWords
@@ -30,10 +22,10 @@ namespace EnglishWords
         /// <param name="testManager"></param>
         /// <param name="testKind"></param>
         /// <returns></returns>
-        public static string GetRandomWord([NotNull] this TestsManager testManager, TestKind testKind)
+        public static (string value, string valueTranslate) GetRandomWord([NotNull] this TestsManager testManager, TestKind testKind)
         {
             var pair = testManager.AllPairs[Rnd.Next(testManager.AllPairs.Length)];
-            return testKind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
+            return testKind == TestKind.WordIsEnglish ? (pair.rus, pair.eng) : (pair.eng, pair.rus);
         }
 
         /// <summary>
@@ -42,10 +34,10 @@ namespace EnglishWords
         /// <param name="chapter"></param>
         /// <param name="testKind"></param>
         /// <returns></returns>
-        public static string GetRandomWord([NotNull] this TestChapter chapter, TestKind testKind)
+        public static (string value, string valueTranslate) GetRandomWord([NotNull] this TestChapter chapter, TestKind testKind)
         {
             var pair = chapter.Pairs[Rnd.Next(chapter.Pairs.Length)];
-            return testKind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
+            return testKind == TestKind.WordIsEnglish ? (pair.rus, pair.eng) : (pair.eng, pair.rus);
         }
 
         /// <summary>

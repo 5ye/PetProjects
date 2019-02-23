@@ -38,15 +38,25 @@ namespace EnglishWords
         private void SetAnswerContent()
         {
             var resultTextView = FindViewById<TextView>(Resource.Id.textViewQuestResult);
+            var resultTextHint1 = FindViewById<TextView>(Resource.Id.textViewQuestResultHint1);
+            var resultTextHint2 = FindViewById<TextView>(Resource.Id.textViewQuestResultHint2);
             if (_runningTest.CurrentQuestion.AnswerIsOk)
             {
                 resultTextView.Text = "ПРАВИЛЬНО!";
+                resultTextHint1.Text = $"{_runningTest.CurrentQuestion.Word.ToUpperInvariant()} - {_runningTest.CurrentQuestion.RightAnswer.ToUpperInvariant()}";
+                resultTextHint2.Text = "МОЛОДЕЦ!";
                 resultTextView.SetTextColor(Android.Graphics.Color.Green);
+                resultTextHint1.SetTextColor(Android.Graphics.Color.Green);
+                resultTextHint2.SetTextColor(Android.Graphics.Color.Green);
             }
             else
             {
                 resultTextView.Text = "НЕВЕРНО!";
+                resultTextHint1.Text = $"{_runningTest.CurrentQuestion.Word.ToUpperInvariant()} - {_runningTest.CurrentQuestion.RightAnswer.ToUpperInvariant()}";
+                resultTextHint2.Text = $"{_runningTest.CurrentQuestion.SelectedAnswer.value.ToUpperInvariant()} - {_runningTest.CurrentQuestion.SelectedAnswer.valueTranslate.ToUpperInvariant()}";
                 resultTextView.SetTextColor(Android.Graphics.Color.Red);
+                resultTextHint1.SetTextColor(Android.Graphics.Color.Red);
+                resultTextHint2.SetTextColor(Android.Graphics.Color.Red);
             }
         }
 
@@ -70,16 +80,24 @@ namespace EnglishWords
             _runningTest = ActivityExchanger.ActiveTest;
             FindViewById<Button>(Resource.Id.buttonGotoNextQuestion).Click +=
                 (sender, e) => ProcessGotoNextQuestion();
-            LinearLayout.LayoutParams layoutParams =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-                    ViewGroup.LayoutParams.WrapContent)
-                {
-                    LeftMargin = 20,
-                    RightMargin = 20,
-                    TopMargin = 100,
-                    BottomMargin = 100
-                };
-            FindViewById<TextView>(Resource.Id.textViewQuestResult).LayoutParameters = layoutParams;
+            var resultLayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.WrapContent)
+            {
+                LeftMargin = 20,
+                RightMargin = 20,
+                TopMargin = 100,
+                BottomMargin = 100
+            };
+            FindViewById<TextView>(Resource.Id.textViewQuestResult).LayoutParameters = resultLayout;
+            var buttonLayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.WrapContent)
+            {
+                LeftMargin = 100,
+                RightMargin = 100,
+                TopMargin = 100,
+                BottomMargin = 100
+            };
+            FindViewById<Button>(Resource.Id.buttonGotoNextQuestion).LayoutParameters = buttonLayout;
             SetAnswerContent();
         }
     }

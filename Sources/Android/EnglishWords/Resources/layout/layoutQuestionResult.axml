@@ -6,21 +6,41 @@
 	<TextView
 		android:text="Результат"
 		android:layout_width="match_parent"
-		android:layout_height="200dp"
+		android:layout_height="100dp"
 		android:minWidth="25px"
 		android:minHeight="25px"
 		android:id="@+id/textViewQuestResult"
 		android:textAlignment="center"
 		android:textStyle="bold"
-		android:textSize="100px"
-		android:paddingVertical="100px" />
+		android:textSize="40dp"
+		android:paddingVertical="20dp" />
+	<TextView
+		android:text="СЛОВО - WORD"
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:id="@+id/textViewQuestResultHint1"
+		android:textAlignment="center"
+		android:textStyle="bold"
+		android:textSize="20dp"/>
+	<TextView
+		android:text="WORD - СЛОВО"
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:id="@+id/textViewQuestResultHint2"
+		android:textAlignment="center"
+		android:textStyle="bold"
+		android:textSize="20dp"/>
 	<Button
 		android:text="Продолжить"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:id="@+id/buttonGotoNextQuestion"
-		android:layout_marginHorizontal="100px" 
-		android:layout_marginVertical="100px" 
+		android:layout_marginHorizontal="100dp" 
+		android:layout_marginVertical="100dp" 
 	/>
 
 </LinearLayout>
