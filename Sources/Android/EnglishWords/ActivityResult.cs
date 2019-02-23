@@ -80,6 +80,15 @@ namespace EnglishWords
                     BottomMargin = 100
                 };
             FindViewById<TextView>(Resource.Id.textViewTestResult).LayoutParameters = layoutParams;
+            var buttonLayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.WrapContent)
+            {
+                LeftMargin = 100,
+                RightMargin = 100,
+                TopMargin = 100,
+                BottomMargin = 100
+            };
+            FindViewById<Button>(Resource.Id.buttonGotoMain).LayoutParameters = buttonLayout;
             SetTestContent();
         }
     }

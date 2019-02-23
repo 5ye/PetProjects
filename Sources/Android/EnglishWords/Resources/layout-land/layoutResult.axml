@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<LinearLayout
+		android:orientation="vertical"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="300dp"
+		android:layout_height="wrap_content"
+		android:id="@+id/linearLayoutLeft">
+		<TextView
+			android:text="Результат"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:id="@+id/textViewTestResult"
+			android:textAlignment="center"
+			android:textStyle="bold"
+			android:textSize="100px"
+			android:paddingVertical="100px"  />
+	</LinearLayout>
+	<LinearLayout
+		android:orientation="vertical"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/linearLayoutRight">
+		<Button
+			android:text="Вернуться к главному меню"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/buttonGotoMain"
+			android:layout_marginHorizontal="100px" 
+			android:layout_marginVertical="100px" />
+	</LinearLayout>
+</LinearLayout>

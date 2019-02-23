@@ -2336,8 +2336,8 @@ namespace EnglishWords
 			// aapt resource value: 0x7f070037
 			public const int SYM = 2131165239;
 			
-			// aapt resource value: 0x7f0700b3
-			public const int action0 = 2131165363;
+			// aapt resource value: 0x7f0700b5
+			public const int action0 = 2131165365;
 			
 			// aapt resource value: 0x7f07007c
 			public const int action_bar = 2131165308;
@@ -2360,17 +2360,17 @@ namespace EnglishWords
 			// aapt resource value: 0x7f07005a
 			public const int action_bar_title = 2131165274;
 			
-			// aapt resource value: 0x7f0700b0
-			public const int action_container = 2131165360;
+			// aapt resource value: 0x7f0700b2
+			public const int action_container = 2131165362;
 			
 			// aapt resource value: 0x7f07007d
 			public const int action_context_bar = 2131165309;
 			
-			// aapt resource value: 0x7f0700b7
-			public const int action_divider = 2131165367;
+			// aapt resource value: 0x7f0700b9
+			public const int action_divider = 2131165369;
 			
-			// aapt resource value: 0x7f0700b1
-			public const int action_image = 2131165361;
+			// aapt resource value: 0x7f0700b3
+			public const int action_image = 2131165363;
 			
 			// aapt resource value: 0x7f070003
 			public const int action_menu_divider = 2131165187;
@@ -2387,11 +2387,11 @@ namespace EnglishWords
 			// aapt resource value: 0x7f07005c
 			public const int action_mode_close_button = 2131165276;
 			
-			// aapt resource value: 0x7f0700b2
-			public const int action_text = 2131165362;
+			// aapt resource value: 0x7f0700b4
+			public const int action_text = 2131165364;
 			
-			// aapt resource value: 0x7f0700c0
-			public const int actions = 2131165376;
+			// aapt resource value: 0x7f0700c2
+			public const int actions = 2131165378;
 			
 			// aapt resource value: 0x7f07005d
 			public const int activity_chooser_view_content = 2131165277;
@@ -2441,17 +2441,17 @@ namespace EnglishWords
 			// aapt resource value: 0x7f0700a6
 			public const int buttonAnswer4 = 2131165350;
 			
-			// aapt resource value: 0x7f0700ad
-			public const int buttonGotoMain = 2131165357;
+			// aapt resource value: 0x7f0700af
+			public const int buttonGotoMain = 2131165359;
 			
-			// aapt resource value: 0x7f0700ab
-			public const int buttonGotoNextQuestion = 2131165355;
+			// aapt resource value: 0x7f0700ad
+			public const int buttonGotoNextQuestion = 2131165357;
 			
 			// aapt resource value: 0x7f070063
 			public const int buttonPanel = 2131165283;
 			
-			// aapt resource value: 0x7f0700b4
-			public const int cancel_action = 2131165364;
+			// aapt resource value: 0x7f0700b6
+			public const int cancel_action = 2131165366;
 			
 			// aapt resource value: 0x7f070045
 			public const int center = 2131165253;
@@ -2465,8 +2465,8 @@ namespace EnglishWords
 			// aapt resource value: 0x7f070073
 			public const int checkbox = 2131165299;
 			
-			// aapt resource value: 0x7f0700bc
-			public const int chronometer = 2131165372;
+			// aapt resource value: 0x7f0700be
+			public const int chronometer = 2131165374;
 			
 			// aapt resource value: 0x7f07004e
 			public const int clip_horizontal = 2131165262;
@@ -2522,8 +2522,8 @@ namespace EnglishWords
 			// aapt resource value: 0x7f070030
 			public const int end = 2131165232;
 			
-			// aapt resource value: 0x7f0700c2
-			public const int end_padder = 2131165378;
+			// aapt resource value: 0x7f0700c4
+			public const int end_padder = 2131165380;
 			
 			// aapt resource value: 0x7f07003f
 			public const int enterAlways = 2131165247;
@@ -2567,8 +2567,8 @@ namespace EnglishWords
 			// aapt resource value: 0x7f070062
 			public const int icon = 2131165282;
 			
-			// aapt resource value: 0x7f0700c1
-			public const int icon_group = 2131165377;
+			// aapt resource value: 0x7f0700c3
+			public const int icon_group = 2131165379;
 			
 			// aapt resource value: 0x7f07003a
 			public const int ifRoom = 2131165242;
@@ -2576,11 +2576,11 @@ namespace EnglishWords
 			// aapt resource value: 0x7f07005f
 			public const int image = 2131165279;
 			
-			// aapt resource value: 0x7f0700af
-			public const int imageView1 = 2131165359;
+			// aapt resource value: 0x7f0700b1
+			public const int imageView1 = 2131165361;
 			
-			// aapt resource value: 0x7f0700bd
-			public const int info = 2131165373;
+			// aapt resource value: 0x7f0700bf
+			public const int info = 2131165375;
 			
 			// aapt resource value: 0x7f070059
 			public const int italic = 2131165273;
@@ -2600,11 +2600,17 @@ namespace EnglishWords
 			// aapt resource value: 0x7f070018
 			public const int line3 = 2131165208;
 			
-			// aapt resource value: 0x7f0700ae
-			public const int linearLayout1 = 2131165358;
+			// aapt resource value: 0x7f0700b0
+			public const int linearLayout1 = 2131165360;
+			
+			// aapt resource value: 0x7f0700a8
+			public const int linearLayoutLeft = 2131165352;
 			
 			// aapt resource value: 0x7f07009e
 			public const int linearLayoutMenuButtons = 2131165342;
+			
+			// aapt resource value: 0x7f0700a9
+			public const int linearLayoutRight = 2131165353;
 			
 			// aapt resource value: 0x7f070099
 			public const int linearLayoutRoot = 2131165337;
@@ -2615,14 +2621,14 @@ namespace EnglishWords
 			// aapt resource value: 0x7f070061
 			public const int list_item = 2131165281;
 			
+			// aapt resource value: 0x7f0700c7
+			public const int masked = 2131165383;
+			
+			// aapt resource value: 0x7f0700b8
+			public const int media_actions = 2131165368;
+			
 			// aapt resource value: 0x7f0700c5
-			public const int masked = 2131165381;
-			
-			// aapt resource value: 0x7f0700b6
-			public const int media_actions = 2131165366;
-			
-			// aapt resource value: 0x7f0700c3
-			public const int message = 2131165379;
+			public const int message = 2131165381;
 			
 			// aapt resource value: 0x7f070031
 			public const int middle = 2131165233;
@@ -2645,14 +2651,14 @@ namespace EnglishWords
 			// aapt resource value: 0x7f07001e
 			public const int normal = 2131165214;
 			
-			// aapt resource value: 0x7f0700bf
-			public const int notification_background = 2131165375;
+			// aapt resource value: 0x7f0700c1
+			public const int notification_background = 2131165377;
 			
-			// aapt resource value: 0x7f0700b9
-			public const int notification_main_column = 2131165369;
+			// aapt resource value: 0x7f0700bb
+			public const int notification_main_column = 2131165371;
 			
-			// aapt resource value: 0x7f0700b8
-			public const int notification_main_column_container = 2131165368;
+			// aapt resource value: 0x7f0700ba
+			public const int notification_main_column_container = 2131165370;
 			
 			// aapt resource value: 0x7f07004c
 			public const int parallax = 2131165260;
@@ -2687,11 +2693,11 @@ namespace EnglishWords
 			// aapt resource value: 0x7f07004a
 			public const int right = 2131165258;
 			
-			// aapt resource value: 0x7f0700be
-			public const int right_icon = 2131165374;
+			// aapt resource value: 0x7f0700c0
+			public const int right_icon = 2131165376;
 			
-			// aapt resource value: 0x7f0700ba
-			public const int right_side = 2131165370;
+			// aapt resource value: 0x7f0700bc
+			public const int right_side = 2131165372;
 			
 			// aapt resource value: 0x7f07000c
 			public const int save_image_matrix = 2131165196;
@@ -2798,8 +2804,8 @@ namespace EnglishWords
 			// aapt resource value: 0x7f07004b
 			public const int start = 2131165259;
 			
-			// aapt resource value: 0x7f0700b5
-			public const int status_bar_latest_event_content = 2131165365;
+			// aapt resource value: 0x7f0700b7
+			public const int status_bar_latest_event_content = 2131165367;
 			
 			// aapt resource value: 0x7f070076
 			public const int submenuarrow = 2131165302;
@@ -2831,17 +2837,17 @@ namespace EnglishWords
 			// aapt resource value: 0x7f0700a7
 			public const int textViewBottomProgress = 2131165351;
 			
-			// aapt resource value: 0x7f0700a8
-			public const int textViewQuestResult = 2131165352;
-			
-			// aapt resource value: 0x7f0700a9
-			public const int textViewQuestResultHint1 = 2131165353;
-			
 			// aapt resource value: 0x7f0700aa
-			public const int textViewQuestResultHint2 = 2131165354;
+			public const int textViewQuestResult = 2131165354;
+			
+			// aapt resource value: 0x7f0700ab
+			public const int textViewQuestResultHint1 = 2131165355;
 			
 			// aapt resource value: 0x7f0700ac
-			public const int textViewTestResult = 2131165356;
+			public const int textViewQuestResultHint2 = 2131165356;
+			
+			// aapt resource value: 0x7f0700ae
+			public const int textViewTestResult = 2131165358;
 			
 			// aapt resource value: 0x7f0700a2
 			public const int textViewWord = 2131165346;
@@ -2855,8 +2861,8 @@ namespace EnglishWords
 			// aapt resource value: 0x7f070015
 			public const int textinput_error = 2131165205;
 			
-			// aapt resource value: 0x7f0700bb
-			public const int time = 2131165371;
+			// aapt resource value: 0x7f0700bd
+			public const int time = 2131165373;
 			
 			// aapt resource value: 0x7f07001c
 			public const int title = 2131165212;
@@ -2903,8 +2909,8 @@ namespace EnglishWords
 			// aapt resource value: 0x7f070016
 			public const int view_offset_helper = 2131165206;
 			
-			// aapt resource value: 0x7f0700c4
-			public const int visible = 2131165380;
+			// aapt resource value: 0x7f0700c6
+			public const int visible = 2131165382;
 			
 			// aapt resource value: 0x7f07003c
 			public const int withText = 2131165244;
