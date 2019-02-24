@@ -22,5 +22,20 @@ namespace EnglishWords
         /// Выполняемый тест
         /// </summary>
         public static Test ActiveTest { get; set; }
+
+        /// <summary>
+        /// Книга уже выбрана
+        /// </summary>
+        public static bool BookSelected { get; set; }
+
+        /// <summary>
+        /// Глава выбрана
+        /// </summary>
+        public static bool ChapterSelected { get; set; }
+
+        /// <summary>
+        /// Тип выполняемого теста
+        /// </summary>
+        public static TestKind CurrentTestKind { get; set; }
     }
 }

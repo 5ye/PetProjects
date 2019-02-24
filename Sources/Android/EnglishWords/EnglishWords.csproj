@@ -63,16 +63,19 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivityMainMenu.cs" />
-    <Compile Include="ActivityQuestionResult.cs" />
-    <Compile Include="ActivityQuestions.cs" />
-    <Compile Include="ActivityResult.cs" />
-    <Compile Include="ChaptersContent.cs" />
+    <Compile Include="Activities\ActivityMain.cs" />
+    <Compile Include="Activities\ActivityQuestionResult.cs" />
+    <Compile Include="Activities\ActivityQuestions.cs" />
+    <Compile Include="Activities\ActivityResult.cs" />
+    <Compile Include="Activities\ActivitySelectBook.cs" />
+    <Compile Include="Activities\ActivitySelectChapter.cs" />
+    <Compile Include="BooksContent.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="MainActivity.cs" />
+    <Compile Include="Activities\ActivitySplash.cs" />
     <Compile Include="ResharperTools.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuntimeEnvironment.cs" />
     <Compile Include="TestsManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,11 +105,6 @@
     <AndroidResource Include="Resources\drawable\Logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\layoutMainMenu.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\layoutQuestion.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -132,6 +130,30 @@
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\BooksContent.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\layoutSelectBook.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\layoutSelectChapter.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\layoutMain.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\EngToRus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\RusToEng.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

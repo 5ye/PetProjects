@@ -3,7 +3,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 
-namespace EnglishWords
+namespace EnglishWords.Activities
 {
     [Activity(Label = "", NoHistory = true)]
     public class ActivityQuestionResult : Activity

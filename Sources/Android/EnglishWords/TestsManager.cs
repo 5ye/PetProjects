@@ -176,6 +176,31 @@ namespace EnglishWords
         public readonly (string eng, string rus)[] Pairs;
 
         /// <summary>
+        /// Создать тест по конкретной части
+        /// </summary>
+        /// <returns></returns>
+        public Test CreateTest()
+        {
+            var kind = RuntimeEnvironment.CurrentTestKind;
+            var questions = new List<TestQuestion>();
+            foreach (var pair in Pairs.RandomOrder())
+            {
+                var word = kind == TestKind.WordIsEnglish ? pair.eng : pair.rus;
+                var answer = kind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
+                var randomAnswers = new HashSet<(string, string)>();
+                while (randomAnswers.Count < 3)
+                {
+                    var newWord = this.GetRandomWord(kind);
+                    if (newWord.value == answer)
+                        continue;
+                    randomAnswers.Add(newWord);
+                }
+                questions.Add(new TestQuestion(word, answer, randomAnswers.ToArray()));
+            }
+            return new Test(Caption, questions.ToArray());
+        }
+
+        /// <summary>
         /// Создание 
         /// </summary>
         /// <param name="caption"></param>
@@ -209,12 +234,15 @@ namespace EnglishWords
         /// Установить текущую главу по наименованию
         /// </summary>
         /// <param name="chapterCaption"></param>
-        public void SetCurrentChapterByCaption([NotNull]string chapterCaption)
+        /// <param name="saveOnDisk"></param>
+        public void SetCurrentChapterByCaption([NotNull]string chapterCaption, bool saveOnDisk)
         {
-            var result = Chapters.FirstOrDefault(x => x.Caption == chapterCaption);
-            _currentChapter = result ?? Chapters.First();
+            RuntimeEnvironment.ChapterSelected = true;
+            _currentChapter = Chapters.FirstOrDefault(x => x.Caption == chapterCaption) ?? Chapters.First();
+            if (saveOnDisk)
+                Helpers.WriteDiscContent(TestsManager.CURRENT_CHAPTER_FILE, chapterCaption);
         }
-        
+
         /// <summary>
         /// Наименование книги
         /// </summary>
@@ -230,12 +258,15 @@ namespace EnglishWords
         /// <summary>
         /// Создать тест по всем частям
         /// </summary>
-        /// <param name="kind"></param>
         /// <returns></returns>
-        public Test CreateTestAllChapters(TestKind kind)
+        public Test CreateTestAllChapters()
         {
+            var kind = RuntimeEnvironment.CurrentTestKind;
             var questions = new List<TestQuestion>();
-            foreach (var pair in Chapters.SelectMany(x => x.Pairs).RandomOrder())
+            var chaptersToUse = Chapters
+                .Reverse()
+                .SkipWhile(x => x != _currentChapter);
+            foreach (var pair in chaptersToUse.SelectMany(x => x.Pairs).RandomOrder())
             {
                 var word = kind == TestKind.WordIsEnglish ? pair.eng : pair.rus;
                 var answer = kind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
@@ -255,13 +286,17 @@ namespace EnglishWords
         /// <summary>
         /// Создать тест по случайным частям
         /// </summary>
-        /// <param name="kind"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public Test CreateTestRandomWords(TestKind kind, int count)
+        public Test CreateTestLastChapters(int count)
         {
+            var kind = RuntimeEnvironment.CurrentTestKind;
             var questions = new HashSet<TestQuestion>();
-            foreach (var pair in Chapters.SelectMany(x => x.Pairs).RandomOrder())
+            var chaptersToUse = Chapters
+                .Reverse()
+                .SkipWhile(x => x != _currentChapter)
+                .Take(count);
+            foreach (var pair in chaptersToUse.SelectMany(x => x.Pairs).RandomOrder())
             {
                 var word = kind == TestKind.WordIsEnglish ? pair.eng : pair.rus;
                 var answer = kind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
@@ -282,29 +317,38 @@ namespace EnglishWords
         }
 
         /// <summary>
-        /// Создать тест по конкретной части
+        /// Создать тест по случайным частям
         /// </summary>
-        /// <param name="kind"></param>
-        /// <param name="chapter"></param>
+        /// <param name="count"></param>
         /// <returns></returns>
-        public Test CreateTestByChapter(TestKind kind, [NotNull] TestChapter chapter)
+        public Test CreateTestRandomWords(int count)
         {
-            var questions = new List<TestQuestion>();
-            foreach (var pair in chapter.Pairs.RandomOrder())
+            var kind = RuntimeEnvironment.CurrentTestKind;
+            var questions = new HashSet<TestQuestion>();
+            foreach (var chapter in Chapters)
             {
-                var word = kind == TestKind.WordIsEnglish ? pair.eng : pair.rus;
-                var answer = kind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
-                var randomAnswers = new HashSet<(string, string)>();
-                while (randomAnswers.Count < 3)
+                foreach (var pair in chapter.Pairs.RandomOrder())
                 {
-                    var newWord = chapter.GetRandomWord(kind);
-                    if (newWord.value == answer)
-                        continue;
-                    randomAnswers.Add(newWord);
+                    var word = kind == TestKind.WordIsEnglish ? pair.eng : pair.rus;
+                    var answer = kind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
+                    var randomAnswers = new HashSet<(string, string)>();
+                    while (randomAnswers.Count < 3)
+                    {
+                        var newWord = this.GetRandomWord(kind);
+                        if (newWord.value == answer)
+                            continue;
+                        randomAnswers.Add(newWord);
+                    }
+                    questions.Add(new TestQuestion(word, answer, randomAnswers.ToArray()));
+                    if (questions.Count == count)
+                        break;
                 }
-                questions.Add(new TestQuestion(word, answer, randomAnswers.ToArray()));
+                // Дальше текущей главы не идем
+                if (chapter == _currentChapter)
+                    break;
             }
-            return new Test(chapter.Caption, questions.ToArray());
+            // вопросов может оказаться меньше
+            return new Test($"Случайные {count} слов", questions.ToArray());
         }
 
         /// <summary>
@@ -357,6 +401,24 @@ namespace EnglishWords
     internal class TestsManager
     {
         /// <summary>
+        /// Название файла текущей книги
+        /// </summary>
+        [NotNull]
+        private const string CURRENT_BOOK_FILE = "currentBook.txt";
+
+        /// <summary>
+        /// Текущая глава
+        /// </summary>
+        [NotNull]
+        public const string CURRENT_CHAPTER_FILE = "currentChapter.txt";
+
+        /// <summary>
+        /// Текущая глава
+        /// </summary>
+        [NotNull]
+        public const string CURRENT_TEST_KIND_FILE = "currentTestKind.txt";
+
+        /// <summary>
         /// Единственный экзеимпляр
         /// </summary>
         private static TestsManager _single;
@@ -374,6 +436,16 @@ namespace EnglishWords
         {
             if (_single == null)
                 _single = new TestsManager(activity);
+            var currentBook = Helpers.ReadDiscContent(CURRENT_BOOK_FILE);
+            if (currentBook != null)
+            {
+                _single.SetCurrentBookByCaption(currentBook, false);
+                var currentChapter = Helpers.ReadDiscContent(CURRENT_CHAPTER_FILE);
+                if (currentChapter != null)
+                    _single.CurrentBook.SetCurrentChapterByCaption(currentBook, false);
+            }
+            RuntimeEnvironment.CurrentTestKind = int.TryParse(Helpers.ReadDiscContent(CURRENT_TEST_KIND_FILE), out var testKindValue) ?
+                (TestKind)testKindValue : default(TestKind);
         }
 
         /// <summary>
@@ -404,9 +476,13 @@ namespace EnglishWords
         /// Установить текущую книгу
         /// </summary>
         /// <param name="bookCaption"></param>
-        public void SetCurrentBookByCaption([NotNull]string bookCaption)
+        /// <param name="saveOnDisk"></param>
+        public void SetCurrentBookByCaption([NotNull]string bookCaption, bool saveOnDisk)
         {
+            RuntimeEnvironment.BookSelected = true;
             _currentBook = _allBooks.FirstOrDefault(x => x.Caption == bookCaption) ?? _allBooks.First();
+            if (saveOnDisk)
+                Helpers.WriteDiscContent(CURRENT_BOOK_FILE, bookCaption);
         }
 
         /// <summary>

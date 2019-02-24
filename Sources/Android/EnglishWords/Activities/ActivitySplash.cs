@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
+using EnglishWords.Activities;
 
-namespace EnglishWords
+namespace EnglishWords.Activities
 {
     [Activity(Label = "Учи английский, Саша!", MainLauncher = true, NoHistory = true)]
-    public class MainActivity : Activity
+    public class ActivitySplash : Activity
     {
         /// <summary>
         /// При создании Activity
@@ -27,7 +28,7 @@ namespace EnglishWords
             {
                 System.Threading.Thread.Sleep(1000);
                 TestsManager.Initialize(this);
-                StartActivity(typeof(ActivityMainMenu));
+                StartActivity(typeof(ActivityMain));
                 Finish();
             }).Start();
         }

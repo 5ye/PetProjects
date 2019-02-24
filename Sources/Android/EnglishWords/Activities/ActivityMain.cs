@@ -1,13 +1,21 @@
-﻿using Android.App;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Android.App;
+using Android.Content;
 using Android.OS;
+using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using JetBrains.Annotations;
+using Environment = System.Environment;
 
-namespace EnglishWords
+namespace EnglishWords.Activities
 {
-    [Activity(Label = "Учи английский, Саша!")]
-    public class ActivityMainMenu : Activity
+    [Activity(Label = "ActivityMain")]
+    public class ActivityMain : Activity
     {
         /// <summary>
         /// Запустить тест на исполнение
@@ -15,17 +23,10 @@ namespace EnglishWords
         /// <param name="test"></param>
         private void StartTest([NotNull] Test test)
         {
-            ActivityExchanger.ActiveTest = test;
+            RuntimeEnvironment.ActiveTest = test;
             StartActivity(typeof(ActivityQuestions));
         }
 
-        /// <summary>
-        /// Выбранный пользователем вариант теста
-        /// </summary>
-        private TestKind Kind => FindViewById<RadioButton>(Resource.Id.radioButton1).Checked
-            ? TestKind.WordIsEnglish
-            : TestKind.WordIsRussian;
-        
         /// <summary>
         /// При создании Activity
         /// </summary>
@@ -33,7 +34,11 @@ namespace EnglishWords
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.layoutMainMenu);
+            SetContentView(Resource.Layout.layoutMain);
+            if (!RuntimeEnvironment.BookSelected)
+                StartActivity(typeof(ActivitySelectBook));
+            else if (!RuntimeEnvironment.ChapterSelected)
+                StartActivity(typeof(ActivitySelectChapter));
             LinearLayout.LayoutParams layoutParams =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                     ViewGroup.LayoutParams.WrapContent)
@@ -41,23 +46,22 @@ namespace EnglishWords
                     LeftMargin = 20,
                     RightMargin = 20
                 };
+            var btnCurrentChapter = FindViewById<Button>(Resource.Id.buttonCurrentChapter);
+            btnCurrentChapter.Click += (sender, args) =>
+                StartTest(TestsManager.Single.CurrentBook.CurrentChapter.CreateTest());
+            btnCurrentChapter.LayoutParameters = layoutParams;
+            var btnLastChapters = FindViewById<Button>(Resource.Id.buttonLastChapters);
+            btnLastChapters.Click += (sender, args) =>
+                StartTest(TestsManager.Single.CurrentBook.CreateTestLastChapters(3));
+            btnLastChapters.LayoutParameters = layoutParams;
             var btn20Words = FindViewById<Button>(Resource.Id.button20Words);
-            btn20Words.Click += (sender, args) => 
-                StartTest(TestsManager.Single.CreateTestRandomWords(Kind, 20));
+            btn20Words.Click += (sender, args) =>
+                StartTest(TestsManager.Single.CurrentBook.CreateTestRandomWords(20));
             btn20Words.LayoutParameters = layoutParams;
             var btnAllWords = FindViewById<Button>(Resource.Id.buttonAllWords);
             btnAllWords.Click += (sender, args) =>
-                StartTest(TestsManager.Single.CreateTestAllChapters(Kind));
+                StartTest(TestsManager.Single.CurrentBook.CreateTestAllChapters());
             btnAllWords.LayoutParameters = layoutParams;
-            var buttonsLayout = FindViewById<LinearLayout>(Resource.Id.linearLayoutMenuButtons);
-            foreach (var chapter in TestsManager.Single.AllChapters)
-            {
-                Button button = new Button(this);
-                button.Text = chapter.Caption;
-                button.LayoutParameters = layoutParams;
-                button.Click += (sender, args) => StartTest(TestsManager.Single.CreateTestByChapter(Kind, chapter));
-                buttonsLayout.AddView(button);
-            }
         }
 
         /// <summary>
@@ -69,4 +73,5 @@ namespace EnglishWords
             // JavaSystem.Exit(0);
         }
     }
+
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<LinearLayout
+		android:orientation="horizontal"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/linearLayoutDirection" >
+		<ImageView
+			android:src="@android:drawable/EngToRus"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/imageViewDirect" />
+		<Button
+			p1:text="Текущая глава"
+			p1:layout_width="match_parent"
+			p1:layout_height="wrap_content"
+			p1:id="@+id/buttonCurrentChapter"
+			p1:layout_marginHorizontal="20px" />
+		<Button
+			p1:text="Последние 3 главы"
+			p1:layout_width="match_parent"
+			p1:layout_height="wrap_content"
+			p1:id="@+id/buttonLastChapters"
+			p1:layout_marginHorizontal="20px" />
+		<Button
+			p1:text="Случайные 20 слов"
+			p1:layout_width="match_parent"
+			p1:layout_height="wrap_content"
+			p1:id="@+id/button20Words"
+			p1:layout_marginHorizontal="20px" />
+		<Button
+			p1:text="Все слова"
+			p1:layout_width="match_parent"
+			p1:layout_height="wrap_content"
+			p1:layout_marginHorizontal="20px"
+			p1:id="@+id/buttonAllWords" />
+
+	</LinearLayout>
+</LinearLayout>
