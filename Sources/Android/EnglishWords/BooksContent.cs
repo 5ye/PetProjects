@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using Android.App;
 using JetBrains.Annotations;
 using Environment = System.Environment;
 
@@ -14,34 +15,8 @@ namespace EnglishWords
     /// </summary>
     internal static class ChaptersContent
     {
-        /// <summary>
-        /// Загрузить демоснтрационные главы
-        /// </summary>
-        /// <returns></returns>
-        [NotNull, ItemNotNull]
-        private static IEnumerable<TestChapter> LoadDemoChapters()
-        {
-            yield return new TestChapter("Первая глава", 
-                ("girl", "чувиха"), 
-                ("boy", "чувак"),
-                ("blue", "синий"),
-                ("alien", "чужой"),
-                ("small", "маленький"));
-            yield return new TestChapter("Вторая глава",
-                ("girl1", "чувиха1"),
-                ("boy1", "чувак1"),
-                ("blue1", "синий1"),
-                ("alien1", "чужой1"),
-                ("small1", "маленький1"));
-            yield return new TestChapter("Третья глава",
-                ("girl1", "чувиха2"),
-                ("boy1", "чувак2"),
-                ("blue1", "синий2"),
-                ("alien1", "чужой2"),
-                ("small1", "маленький2"));
-        }
-
-
+        /*
+        Переделать в удаленное обновление, возможно
         /// <summary>
         /// Попытаться загрузить контент с удаленного сервера
         /// </summary>
@@ -62,26 +37,36 @@ namespace EnglishWords
                 return null;
             }
         }
+        */
+
+        /// <summary>
+        /// Получить контент, вшитый непосредственно в программу
+        /// </summary>
+        /// <returns></returns>
+        private static (int version, string content) GetHardcodeContentString([NotNull]Activity activity)
+        {
+            using (var reader = new StreamReader(activity.Assets.Open("BooksContent.txt")))
+                return reader.ReadToEnd().StringContentToVersionedContent();
+        }
 
         /// <summary>
         /// Заполучить итоговую строку контента
         /// </summary>
         /// <returns></returns>
-        private static string GetContentString()
+        [NotNull]
+        private static string GetContentString([NotNull]Activity activity)
         {
+            var hardcodeContent = GetHardcodeContentString(activity);
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var filename = Path.Combine(documents, "Words.txt");
-            // Сначала пытаемся затянуть (и сохранить локально) удаленный контент
-            var content = TryLoadRemoteContent();
-            if (content != null)
+            var savedContentFile = Path.Combine(documents, "Words.txt");
+            if (File.Exists(savedContentFile))
             {
-                File.WriteAllText(filename, content);
-                return content;
+                var savedContent = File.ReadAllText(savedContentFile).StringContentToVersionedContent();
+                if (savedContent.version >= hardcodeContent.version)
+                    return savedContent.content;
+                File.WriteAllText(savedContentFile, hardcodeContent.content);
             }
-            // если не получилось его подтянуть - тащим локальный
-            if (File.Exists(filename))
-                return File.ReadAllText(filename);
-            return null;
+            return hardcodeContent.content;
         }
 
         /// <summary>
@@ -90,23 +75,32 @@ namespace EnglishWords
         /// <param name="content"></param>
         /// <returns></returns>
         [NotNull, ItemNotNull]
-        private static IEnumerable<TestChapter> ParseChapters([NotNull] string content)
+        private static IEnumerable<TestBook> ParseBooks([NotNull]string content)
         {
+            const string bookSeparator = "---->";
+            var bookCaption = string.Empty;
             var chapterCaption = string.Empty;
             var chapterWords = new List<(string eng, string rus)>();
+            var bookChapters = new List<TestChapter>();
             foreach (var line in content.Split('\n').Select(x => x.Trim()))
             {
                 if (line.StartsWith(';'))
                     continue;
                 if (string.IsNullOrEmpty(line))
                     continue;
+                if (line.StartsWith(bookSeparator))
+                {
+                    yield return new TestBook(bookCaption, bookChapters.ToArray());
+                    bookCaption = line.Substring(bookSeparator.Length).Trim();
+                    bookChapters.Clear();
+                }
 
                 var sepIndex = line.IndexOf('=');
                 if (sepIndex == -1)
                 {
                     if (chapterWords.Any() && !string.IsNullOrEmpty(chapterCaption))
                     {
-                        yield return new TestChapter(chapterCaption, chapterWords.ToArray());
+                        bookChapters.Add(new TestChapter(chapterCaption, chapterWords.ToArray()));
                         chapterWords.Clear();
                     }
                     chapterCaption = line;
@@ -120,17 +114,20 @@ namespace EnglishWords
                 }
             }
             if (chapterWords.Any() && !string.IsNullOrEmpty(chapterCaption))
-                yield return new TestChapter(chapterCaption, chapterWords.ToArray());
+            {
+                bookChapters.Add(new TestChapter(chapterCaption, chapterWords.ToArray()));
+                yield return new TestBook(bookCaption, bookChapters.ToArray());
+            }
         }
 
         /// <summary>
         /// Загрузить все главы
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<TestChapter> LoadAllChapters()
+        public static IEnumerable<TestBook> LoadAllBooks([NotNull]Activity activity)
         {
-            var content = GetContentString();
-            return content == null ? LoadDemoChapters() : ParseChapters(content);
+            var content = GetContentString(activity);
+            return ParseBooks(content);
         }
     }
 }

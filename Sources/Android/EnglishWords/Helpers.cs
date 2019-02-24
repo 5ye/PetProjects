@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
 
@@ -19,12 +20,12 @@ namespace EnglishWords
         /// <summary>
         /// Получить произвольное слово по всем главам в целом
         /// </summary>
-        /// <param name="testManager"></param>
+        /// <param name="testBook"></param>
         /// <param name="testKind"></param>
         /// <returns></returns>
-        public static (string value, string valueTranslate) GetRandomWord([NotNull] this TestsManager testManager, TestKind testKind)
+        public static (string value, string valueTranslate) GetRandomWord([NotNull] this TestBook testBook, TestKind testKind)
         {
-            var pair = testManager.AllPairs[Rnd.Next(testManager.AllPairs.Length)];
+            var pair = testBook.AllPairs[Rnd.Next(testBook.AllPairs.Length)];
             return testKind == TestKind.WordIsEnglish ? (pair.rus, pair.eng) : (pair.eng, pair.rus);
         }
 
@@ -63,16 +64,43 @@ namespace EnglishWords
                 .OrderBy(x => x.Item1)
                 .Select(x => x.Item2);
         }
-    }
 
-    /// <summary>
-    /// Средства обмена между активностями
-    /// </summary>
-    internal static class ActivityExchanger
-    {
         /// <summary>
-        /// Выполняемый тест
+        /// Преобразовать строку с контентом в версионированную строку с контентом
         /// </summary>
-        public static Test ActiveTest { get; set; }
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static (int version, string content) StringContentToVersionedContent([NotNull]this string content)
+        {
+            var index = content.IndexOf('\n');
+            if (index > -1 && int.TryParse(content.Substring(0, index).Trim(), out var version))
+                return (version, content);
+            return (default(int), content);
+        }
+
+        /// <summary>
+        /// Прочитать контент или получить null, если контента не существует
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static string ReadDiscContent([NotNull]string fileName)
+        {
+            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var fullFileName = Path.Combine(documents, fileName);
+            return File.Exists(fullFileName) ? File.ReadAllText(fullFileName) : null;
+        }
+
+        /// <summary>
+        /// Записать контент на диск
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static void WriteDiscContent([NotNull]string fileName, [NotNull]string content)
+        {
+            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var fullFileName = Path.Combine(documents, fileName);
+            File.WriteAllText(fullFileName, content);
+        }
     }
 }

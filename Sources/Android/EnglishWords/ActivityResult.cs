@@ -67,7 +67,7 @@ namespace EnglishWords
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.layoutResult);
-            _runningTest = ActivityExchanger.ActiveTest;
+            _runningTest = RuntimeEnvironment.ActiveTest;
             FindViewById<Button>(Resource.Id.buttonGotoMain).Click +=
                 (sender, e) => ProcessGotoMain();
             LinearLayout.LayoutParams layoutParams =

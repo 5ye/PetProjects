@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Android.App;
 using JetBrains.Annotations;
 
 namespace EnglishWords
@@ -187,26 +188,45 @@ namespace EnglishWords
     }
 
     /// <summary>
-    /// Тип теста
+    /// Одна книга исходных данных
+    /// Книга = класс (наверное, всегда)
     /// </summary>
-    internal enum TestKind
+    internal class TestBook
     {
         /// <summary>
-        /// Слово на аинглийском
+        /// Текущая глава
         /// </summary>
-        WordIsEnglish,
+        [NotNull]
+        private TestChapter _currentChapter;
 
         /// <summary>
-        /// Слово на русском
+        /// Текущая глава
         /// </summary>
-        WordIsRussian
-    }
-    
-    /// <summary>
-    /// Средства тестирования
-    /// </summary>
-    internal class TestsManager
-    {
+        [NotNull]
+        public TestChapter CurrentChapter => _currentChapter;
+
+        /// <summary>
+        /// Установить текущую главу по наименованию
+        /// </summary>
+        /// <param name="chapterCaption"></param>
+        public void SetCurrentChapterByCaption([NotNull]string chapterCaption)
+        {
+            var result = Chapters.FirstOrDefault(x => x.Caption == chapterCaption);
+            _currentChapter = result ?? Chapters.First();
+        }
+        
+        /// <summary>
+        /// Наименование книги
+        /// </summary>
+        [NotNull]
+        public readonly string Caption;
+
+        /// <summary>
+        /// Главы
+        /// </summary>
+        [NotNull, ItemNotNull]
+        public readonly TestChapter[] Chapters;
+
         /// <summary>
         /// Создать тест по всем частям
         /// </summary>
@@ -215,7 +235,7 @@ namespace EnglishWords
         public Test CreateTestAllChapters(TestKind kind)
         {
             var questions = new List<TestQuestion>();
-            foreach (var pair in _allChapters.SelectMany(x => x.Pairs).RandomOrder())
+            foreach (var pair in Chapters.SelectMany(x => x.Pairs).RandomOrder())
             {
                 var word = kind == TestKind.WordIsEnglish ? pair.eng : pair.rus;
                 var answer = kind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
@@ -241,7 +261,7 @@ namespace EnglishWords
         public Test CreateTestRandomWords(TestKind kind, int count)
         {
             var questions = new HashSet<TestQuestion>();
-            foreach (var pair in _allChapters.SelectMany(x => x.Pairs).RandomOrder())
+            foreach (var pair in Chapters.SelectMany(x => x.Pairs).RandomOrder())
             {
                 var word = kind == TestKind.WordIsEnglish ? pair.eng : pair.rus;
                 var answer = kind == TestKind.WordIsEnglish ? pair.rus : pair.eng;
@@ -288,6 +308,55 @@ namespace EnglishWords
         }
 
         /// <summary>
+        /// Все пары слов
+        /// </summary>
+        private readonly Lazy<(string eng, string rus)[]> _allPairs;
+
+        /// <summary>
+        /// Получить все пары слов
+        /// </summary>
+        public (string eng, string rus)[] AllPairs => _allPairs.Value;
+
+        /// <summary>
+        /// Создание
+        /// </summary>
+        public TestBook([NotNull]string caption, [NotNull, ItemNotNull]TestChapter[] chapters)
+        {
+            Caption = caption;
+            Chapters = chapters;
+            _currentChapter = chapters.First();
+            _allPairs = new Lazy<(string eng, string rus)[]>(() =>
+            {
+                var result = new List<(string eng, string rus)>();
+                foreach (var chapter in chapters)
+                    result.AddRange(chapter.Pairs);
+                return result.ToArray();
+            });
+        }
+    }
+
+    /// <summary>
+    /// Тип теста
+    /// </summary>
+    internal enum TestKind
+    {
+        /// <summary>
+        /// Слово на аинглийском
+        /// </summary>
+        WordIsEnglish,
+
+        /// <summary>
+        /// Слово на русском
+        /// </summary>
+        WordIsRussian
+    }
+    
+    /// <summary>
+    /// Средства тестирования
+    /// </summary>
+    internal class TestsManager
+    {
+        /// <summary>
         /// Единственный экзеимпляр
         /// </summary>
         private static TestsManager _single;
@@ -301,47 +370,52 @@ namespace EnglishWords
         /// <summary>
         /// Выполнить начальную инициализацию
         /// </summary>
-        public static void Initialize()
+        public static void Initialize([NotNull]Activity activity)
         {
             if (_single == null)
-                _single = new TestsManager();
+                _single = new TestsManager(activity);
         }
 
         /// <summary>
-        /// Все части
+        /// Текущая выбранная пользователем книга (по сути, класс)
+        /// </summary>
+        [NotNull]
+        private TestBook _currentBook;
+
+        /// <summary>
+        /// Все книги
         /// </summary>
         [NotNull, ItemNotNull]
-        private readonly TestChapter[] _allChapters;
-
-        /// <summary>
-        /// Все пары слов
-        /// </summary>
-        private readonly Lazy<(string eng, string rus)[]> _allPairs;
-
-        /// <summary>
-        /// Получить все пары слов
-        /// </summary>
-        public (string eng, string rus)[] AllPairs => _allPairs.Value;
+        private readonly TestBook[] _allBooks;
 
         /// <summary>
         /// Все главы
         /// </summary>
         [NotNull, ItemNotNull]
-        public TestChapter[] AllChapters => _allChapters;
+        public TestBook[] AllBooks => _allBooks;
+
+        /// <summary>
+        /// Получить текущую книгу
+        /// </summary>
+        [NotNull]
+        public TestBook CurrentBook => _currentBook;
+
+        /// <summary>
+        /// Установить текущую книгу
+        /// </summary>
+        /// <param name="bookCaption"></param>
+        public void SetCurrentBookByCaption([NotNull]string bookCaption)
+        {
+            _currentBook = _allBooks.FirstOrDefault(x => x.Caption == bookCaption) ?? _allBooks.First();
+        }
 
         /// <summary>
         /// Конструктор закрыт, т.к. явное создание этого объекта запрещено
         /// </summary>
-        private TestsManager()
+        private TestsManager([NotNull]Activity activity)
         {
-            _allChapters = ChaptersContent.LoadAllChapters().ToArray();
-            _allPairs = new Lazy<(string eng, string rus)[]>(() =>
-            {
-                var result = new List<(string eng, string rus)>();
-                foreach (var chapter in _allChapters)
-                    result.AddRange(chapter.Pairs);
-                return result.ToArray();
-            });
+            _allBooks = ChaptersContent.LoadAllBooks(activity).ToArray();
+            _currentBook = _allBooks.First();
         }
     }
 }

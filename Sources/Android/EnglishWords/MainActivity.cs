@@ -25,8 +25,8 @@ namespace EnglishWords
             base.OnStart();
             new Task(() =>
             {
-                System.Threading.Thread.Sleep(2000);
-                TestsManager.Initialize();
+                System.Threading.Thread.Sleep(1000);
+                TestsManager.Initialize(this);
                 StartActivity(typeof(ActivityMainMenu));
                 Finish();
             }).Start();

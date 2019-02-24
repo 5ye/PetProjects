@@ -1,0 +1,198 @@
+﻿1
+; Первая строчка - это 100% версия, ее не трогаем!
+; Слова для программы
+; Правила заполнения:
+; 1. Строки, начинающиеся с ';', игнорируются
+; 2. Слова разбиваются на разделы (по четвертям, урокам, как угодно), название раздела обязательно и не должно содержать знак '='
+; 3. Слова в разделе пишутся в формате englishWord = Русский перевод
+; 4. Каждый новый учебник отделяется знаком ---->
+
+----> Rainbow English 3 класс
+
+Свежие слова
+fire = огонь
+dairy = дневник
+giant = гигантский
+tired = уставший
+sick = больной
+hungry = голодный
+thirsty = пить
+job = работа
+matter = дело
+gym = спортзал
+cage = клетка
+stage = сцена
+page = страница
+general = генерал
+sledge = сани
+
+doctor = доктор
+swimmer = пловец
+shopper = покупатель
+runner = бегун
+skier = лыжник
+teacher = учитель
+farmer = фермер
+player = игрок
+
+Свежие слова 2
+snail = улитка
+tail = хвост
+train = поезд
+coin = монета
+pointer = указка
+toy = игрушка
+monkey = обезьяна
+
+Дни недели
+sunday = воскресенье
+monday = понедельник
+tuesday = вторник
+Wednesday = среда
+thursday = четверг
+friday = пятница
+saturday = суббота
+
+Цвета
+red = красный
+green = зеленый
+black = черный
+blue = синий
+yellow = желтый
+brown = коричневый
+gray = серый
+purple = фиолетовый
+orange = оранжевый
+
+Числа
+one = один
+two = два
+three = три
+four = четыре
+five = пять
+six = шесть
+seven = семь
+eight = восемь
+nine = девять
+ten = десять
+eleven = одинадцать
+twelve = двенадцать
+thirteen = тринадцать
+fourteen = четырнадцать
+fifteen = пятнадцать
+sixteen = шестнадцать
+seventeen = семнадцать
+eighteen = восемнадцать
+nineteen = девятнадцать
+twenty = двадцать
+
+Страница 17
+snail = улитка
+tail = хвост
+train = поезд
+coin = монета
+pointer = указка
+toy = игрушка
+monkey = обезьяна
+
+Страница 16
+how many = как много (сколько)
+skate = скользить
+birthday = день рождения
+family = семья
+table = стол
+wife = жена
+husband = муж
+friend = друг
+candle = свеча
+present = подарок
+say = сказать
+number = цифра
+train = поезд
+son = сын
+today = сегодня
+with = с (предлог)
+sweet = конфета
+thank you = спасибо
+
+
+Страница 15
+man = человек
+long = длинный
+clean = чистый
+short = короткий
+dirty = грязный
+drive = водить
+write = писать
+ski = кататься на лыжах
+count = считать
+dance = танцевать
+at all = совсем
+a little = немножко
+
+
+Страница 13
+these = эти
+king = король
+wing = крыло
+ring = кольцо
+stocking = чулок
+kangaroo = кенгуру
+english = английский
+bank = банк
+ping-pong = пинг-понг
+skating rink = каток
+sing = петь
+thank = благодарить
+flower = цветок
+tower = башня
+shower = душ
+chair = стул
+bear = медведь
+teddy bear = плюшевый мишка
+parents = родители 
+
+Страница 12
+spoon = ложка
+moon = луна
+school = школа
+afternoon = полдень
+morning = утро
+evening = вечер
+too = тоже
+feed = кормить
+sleep = спать
+cook = готовить
+run = бегать
+ride = ехать
+help = помогать
+jump = прыгать
+swim = плавать
+play = играть
+this = этот (эта, это)
+that = тот (та, то)
+those = те
+
+----> Rainbow English 4 класс
+
+Страница 12
+spoon = ложка
+moon = луна
+school = школа
+afternoon = полдень
+morning = утро
+evening = вечер
+too = тоже
+feed = кормить
+sleep = спать
+cook = готовить
+run = бегать
+ride = ехать
+help = помогать
+jump = прыгать
+swim = плавать
+play = играть
+this = этот (эта, это)
+that = тот (та, то)
+those = те
+
