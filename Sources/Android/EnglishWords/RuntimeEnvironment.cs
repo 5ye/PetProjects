@@ -32,10 +32,5 @@ namespace EnglishWords
         /// Глава выбрана
         /// </summary>
         public static bool ChapterSelected { get; set; }
-
-        /// <summary>
-        /// Тип выполняемого теста
-        /// </summary>
-        public static TestKind CurrentTestKind { get; set; }
     }
 }

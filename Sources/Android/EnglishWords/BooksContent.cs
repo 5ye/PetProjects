@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Android.App;
 using JetBrains.Annotations;
 using Environment = System.Environment;
@@ -15,21 +17,32 @@ namespace EnglishWords
     /// </summary>
     internal static class ChaptersContent
     {
-        /*
-        Переделать в удаленное обновление, возможно
+        /// <summary>
+        /// Наименование файла со скаченным контентом
+        /// </summary>
+        private const string REMOTE_CONTENT_FILE_NAME = "EngWordsContent.txt";
+        
         /// <summary>
         /// Попытаться загрузить контент с удаленного сервера
         /// </summary>
         /// <returns></returns>
-        private static string TryLoadRemoteContent()
+        private static string TryLoadRemoteContentSync()
         {
-            var request = new HttpWebRequest(new Uri("http://192.168.1.90:5000/MyWeb/Shares/English/words.txt"));
+            var request = new HttpWebRequest(new Uri("http://5ye.hldns.ru:5000/MyWeb/Shares/English/words.txt"));
             try
             {
                 using (var stream = request.GetResponse().GetResponseStream().AssertNull())
                 using (var reader = new StreamReader(stream, Encoding.UTF8))
                 {
-                    return reader.ReadToEnd();
+                    var result = reader.ReadToEnd();
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        lock (REMOTE_CONTENT_FILE_NAME)
+                        {
+                            Helpers.WriteDiscContent(REMOTE_CONTENT_FILE_NAME, result);
+                        }
+                    }
+                    return result;
                 }
             }
             catch
@@ -37,7 +50,31 @@ namespace EnglishWords
                 return null;
             }
         }
-        */
+
+        /// <summary>
+        /// Попытаться заполучить ранее скаченный удаленный контент
+        /// </summary>
+        /// <returns></returns>
+        private static string TryLoadSavedRemoteContent()
+        {
+            lock (REMOTE_CONTENT_FILE_NAME)
+                return Helpers.ReadDiscContent(REMOTE_CONTENT_FILE_NAME);
+        }
+
+        /// <summary>
+        /// Попытаться загрузить контент с удаленного сервера
+        /// </summary>
+        /// <returns></returns>
+        private static string TryLoadRemoteContent()
+        {
+            string result = null;
+            var task1 = new Task(() => result = TryLoadRemoteContentSync());
+            task1.Start();
+            // На загрузку даем пару секунд, иначе работаем с тем, что есть
+            var task2 = new Task(() => Thread.Sleep(2000));
+            task2.Start();
+            return Task.WaitAny(task1, task2) == 0 ? result : null;
+        }
 
         /// <summary>
         /// Получить контент, вшитый непосредственно в программу
@@ -56,17 +93,17 @@ namespace EnglishWords
         [NotNull]
         private static string GetContentString([NotNull]Activity activity)
         {
-            var hardcodeContent = GetHardcodeContentString(activity);
+            var (version, content) = GetHardcodeContentString(activity);
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var savedContentFile = Path.Combine(documents, "Words.txt");
             if (File.Exists(savedContentFile))
             {
                 var savedContent = File.ReadAllText(savedContentFile).StringContentToVersionedContent();
-                if (savedContent.version >= hardcodeContent.version)
+                if (savedContent.version >= version)
                     return savedContent.content;
-                File.WriteAllText(savedContentFile, hardcodeContent.content);
+                File.WriteAllText(savedContentFile, content);
             }
-            return hardcodeContent.content;
+            return content;
         }
 
         /// <summary>
@@ -82,7 +119,7 @@ namespace EnglishWords
             var chapterCaption = string.Empty;
             var chapterWords = new List<(string eng, string rus)>();
             var bookChapters = new List<TestChapter>();
-            foreach (var line in content.Split('\n').Select(x => x.Trim()))
+            foreach (var line in content.Split('\n').Skip(1).Select(x => x.Trim()))
             {
                 if (line.StartsWith(';'))
                     continue;
@@ -90,9 +127,13 @@ namespace EnglishWords
                     continue;
                 if (line.StartsWith(bookSeparator))
                 {
-                    yield return new TestBook(bookCaption, bookChapters.ToArray());
+                    if (chapterWords.Any() && !string.IsNullOrEmpty(chapterCaption))
+                        bookChapters.Add(new TestChapter(chapterCaption, chapterWords.ToArray()));
+                    if (bookChapters.Any())
+                        yield return new TestBook(bookCaption, bookChapters.ToArray());
                     bookCaption = line.Substring(bookSeparator.Length).Trim();
                     bookChapters.Clear();
+                    chapterWords.Clear();
                 }
 
                 var sepIndex = line.IndexOf('=');
@@ -126,7 +167,7 @@ namespace EnglishWords
         /// <returns></returns>
         public static IEnumerable<TestBook> LoadAllBooks([NotNull]Activity activity)
         {
-            var content = GetContentString(activity);
+            var content = TryLoadRemoteContent() ?? TryLoadSavedRemoteContent() ?? GetContentString(activity);
             return ParseBooks(content);
         }
     }

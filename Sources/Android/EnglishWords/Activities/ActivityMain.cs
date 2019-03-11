@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
+﻿using Android.App;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using JetBrains.Annotations;
-using Environment = System.Environment;
 
 namespace EnglishWords.Activities
 {
-    [Activity(Label = "ActivityMain")]
+    [Activity(Label = "Учим английский")]
     public class ActivityMain : Activity
     {
         /// <summary>
@@ -25,6 +17,21 @@ namespace EnglishWords.Activities
         {
             RuntimeEnvironment.ActiveTest = test;
             StartActivity(typeof(ActivityQuestions));
+        }
+
+        /// <summary>
+        /// Изменить направление перевода
+        /// </summary>
+        private void InvertTestKind()
+        {
+            var newDirection = TestsManager.Single.CurrentTestKind == TestKind.WordIsEnglish ? 
+                TestKind.WordIsRussian : 
+                TestKind.WordIsEnglish;
+            TestsManager.Single.SetCurrentTestKind(newDirection, true);
+            var imgSetDirection = FindViewById<ImageView>(Resource.Id.imageViewDirect);
+            imgSetDirection.SetImageResource(TestsManager.Single.CurrentTestKind == TestKind.WordIsEnglish ?
+                Resource.Drawable.engToRus :
+                Resource.Drawable.rusToEng);
         }
 
         /// <summary>
@@ -39,29 +46,31 @@ namespace EnglishWords.Activities
                 StartActivity(typeof(ActivitySelectBook));
             else if (!RuntimeEnvironment.ChapterSelected)
                 StartActivity(typeof(ActivitySelectChapter));
-            LinearLayout.LayoutParams layoutParams =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-                    ViewGroup.LayoutParams.WrapContent)
-                {
-                    LeftMargin = 20,
-                    RightMargin = 20
-                };
+            var imgSetDirection = FindViewById<ImageView>(Resource.Id.imageViewDirect);
+            imgSetDirection.SetImageResource(TestsManager.Single.CurrentTestKind == TestKind.WordIsEnglish ?
+                Resource.Drawable.engToRus :
+                Resource.Drawable.rusToEng);
+            imgSetDirection.Click += (sender, args) => InvertTestKind();
+            var btnSelectBook = FindViewById<Button>(Resource.Id.buttonSelectBook);
+            btnSelectBook.Click += (sender, args) => StartActivity(typeof(ActivitySelectBook));
+            if (RuntimeEnvironment.BookSelected)
+                btnSelectBook.Text = TestsManager.Single.CurrentBook.Caption;
+            var btnSelectChapter = FindViewById<Button>(Resource.Id.buttonSelectChapter);
+            btnSelectChapter.Click += (sender, args) => StartActivity(typeof(ActivitySelectChapter));
+            if (RuntimeEnvironment.ChapterSelected)
+                btnSelectChapter.Text = TestsManager.Single.CurrentBook.CurrentChapter.Caption;
             var btnCurrentChapter = FindViewById<Button>(Resource.Id.buttonCurrentChapter);
             btnCurrentChapter.Click += (sender, args) =>
                 StartTest(TestsManager.Single.CurrentBook.CurrentChapter.CreateTest());
-            btnCurrentChapter.LayoutParameters = layoutParams;
             var btnLastChapters = FindViewById<Button>(Resource.Id.buttonLastChapters);
             btnLastChapters.Click += (sender, args) =>
                 StartTest(TestsManager.Single.CurrentBook.CreateTestLastChapters(3));
-            btnLastChapters.LayoutParameters = layoutParams;
             var btn20Words = FindViewById<Button>(Resource.Id.button20Words);
             btn20Words.Click += (sender, args) =>
                 StartTest(TestsManager.Single.CurrentBook.CreateTestRandomWords(20));
-            btn20Words.LayoutParameters = layoutParams;
             var btnAllWords = FindViewById<Button>(Resource.Id.buttonAllWords);
             btnAllWords.Click += (sender, args) =>
                 StartTest(TestsManager.Single.CurrentBook.CreateTestAllChapters());
-            btnAllWords.LayoutParameters = layoutParams;
         }
 
         /// <summary>

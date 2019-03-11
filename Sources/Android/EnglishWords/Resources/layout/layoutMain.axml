@@ -2,43 +2,97 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+	android:layout_marginLeft="10dp"		
+	android:layout_marginRight="10dp">
+	<TextView
+		android:text="Настройки"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:textColor="#ff3ed311"
+		android:textSize="20dp"
+		android:textStyle="bold"
+		android:textAlignment="center" 
+		android:id="@+id/textSettings"/>
 	<LinearLayout
 		android:orientation="horizontal"
 		android:minWidth="25px"
 		android:minHeight="25px"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:id="@+id/linearLayoutDirection" >
+		android:id="@+id/linearLayoutDirection">
 		<ImageView
-			android:src="@android:drawable/EngToRus"
+			android:src="@drawable/engToRus"
+			android:layout_width="80dp"
+			android:layout_height="60dp"
+			android:layout_marginTop="5dp"
+			android:layout_marginLeft="14dp"
+			android:id="@+id/imageViewDirect"/>
+		<Button
+			android:text="Книга"
+			android:layout_width="125dp"
+			android:layout_height="match_parent"
+			android:layout_marginTop="5dp"
+			android:layout_marginLeft="10dp"
+			android:id="@+id/buttonSelectBook"/>
+		<Button
+			android:text="Глава"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:id="@+id/imageViewDirect" />
+			android:layout_height="match_parent"
+			android:layout_marginTop="5dp"
+			android:layout_marginRight="10dp"
+			android:id="@+id/buttonSelectChapter"/>
+	</LinearLayout>
+	<TextView
+		android:text="Тесты"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="25dp"
+		android:layout_marginBottom="5dp"
+		android:textColor="#ff3ed311"
+		android:textSize="20dp"
+		android:textStyle="bold"
+		android:textAlignment="center" 
+		android:id="@+id/textTests"/>
+	<LinearLayout
+		android:orientation="horizontal"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 		<Button
-			p1:text="Текущая глава"
-			p1:layout_width="match_parent"
-			p1:layout_height="wrap_content"
-			p1:id="@+id/buttonCurrentChapter"
-			p1:layout_marginHorizontal="20px" />
+			android:text="Текущая глава"
+			android:layout_width="175dp"
+			android:layout_height="180dp"
+			android:layout_marginLeft="10dp"
+			android:id="@+id/buttonCurrentChapter"/>
 		<Button
-			p1:text="Последние 3 главы"
-			p1:layout_width="match_parent"
-			p1:layout_height="wrap_content"
-			p1:id="@+id/buttonLastChapters"
-			p1:layout_marginHorizontal="20px" />
+			android:text="Последние 3 главы"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginRight="10dp"
+			android:id="@+id/buttonLastChapters" />
+	</LinearLayout>
+	<LinearLayout
+		android:orientation="horizontal"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 		<Button
-			p1:text="Случайные 20 слов"
-			p1:layout_width="match_parent"
-			p1:layout_height="wrap_content"
-			p1:id="@+id/button20Words"
-			p1:layout_marginHorizontal="20px" />
+			android:text="Случайные 20 слов"
+			android:layout_width="175dp"
+			android:layout_height="180dp"
+			android:layout_marginLeft="10dp"
+			android:id="@+id/button20Words"/>
 		<Button
-			p1:text="Все слова"
-			p1:layout_width="match_parent"
-			p1:layout_height="wrap_content"
-			p1:layout_marginHorizontal="20px"
-			p1:id="@+id/buttonAllWords" />
-
+			android:text="Все слова"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginRight="10dp"
+			android:id="@+id/buttonAllWords" />
 	</LinearLayout>
 </LinearLayout>

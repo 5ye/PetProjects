@@ -77,7 +77,7 @@ namespace EnglishWords.Activities
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.layoutQuestionResult);
-            _runningTest = ActivityExchanger.ActiveTest;
+            _runningTest = RuntimeEnvironment.ActiveTest;
             FindViewById<Button>(Resource.Id.buttonGotoNextQuestion).Click +=
                 (sender, e) => ProcessGotoNextQuestion();
             var resultLayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,

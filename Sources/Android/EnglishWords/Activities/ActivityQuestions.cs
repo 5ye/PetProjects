@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.OS;
-using Android.Views;
 using Android.Widget;
 
 namespace EnglishWords.Activities
@@ -27,8 +26,8 @@ namespace EnglishWords.Activities
             {
                 FindViewById<TextView>(Resource.Id.textViewWord).Text = _runningTest.CurrentQuestion.Word.ToUpperInvariant();
                 var id = 1;
-                foreach (var currentQuestionAnswer in _runningTest.CurrentQuestion.Answers)
-                    FindViewById<Button>(Helpers.GetIdByResourceName($"buttonAnswer{id++}")).Text = currentQuestionAnswer.value;
+                foreach (var (value, _) in _runningTest.CurrentQuestion.Answers)
+                    FindViewById<Button>(Helpers.GetIdByResourceName($"buttonAnswer{id++}")).Text = value;
                 FindViewById<TextView>(Resource.Id.textViewBottomProgress).Text = $"Вопрос {_runningTest.QuestionIndex + 1} из {_runningTest.QuestionsCount}";
             }
         }
@@ -69,7 +68,7 @@ namespace EnglishWords.Activities
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.layoutQuestion);
-            _runningTest = ActivityExchanger.ActiveTest;
+            _runningTest = RuntimeEnvironment.ActiveTest;
             for (int i = 1; i <= 4; i++)
             {
                 var index = i;

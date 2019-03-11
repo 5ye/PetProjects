@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
+﻿using Android.App;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using JetBrains.Annotations;
@@ -26,7 +19,7 @@ namespace EnglishWords.Activities
         private void SelectCurrentBook([NotNull]Button sender)
         {
             TestsManager.Single.SetCurrentBookByCaption(sender.Text, true);
-            StartActivity(typeof(ActivitySplash));
+            StartActivity(typeof(ActivityMain));
         }
 
         /// <summary>
@@ -46,9 +39,11 @@ namespace EnglishWords.Activities
             var buttonsLayout = FindViewById<LinearLayout>(Resource.Id.linearLayoutSelectBook);
             foreach (var book in TestsManager.Single.AllBooks)
             {
-                var button = new Button(this);
-                button.Text = book.Caption;
-                button.LayoutParameters = layoutParams;
+                var button = new Button(this)
+                {
+                    Text = book.Caption,
+                    LayoutParameters = layoutParams
+                };
                 button.Click += (sender, args) => SelectCurrentBook(button);
                 buttonsLayout.AddView(button);
             }

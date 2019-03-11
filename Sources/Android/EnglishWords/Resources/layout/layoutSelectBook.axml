@@ -3,19 +3,30 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+	<TextView
+		android:text="Укажите раздел"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/textSelectBook"
+		android:layout_margin="20dp"
+		android:textColor="#ff3ed311"
+		android:textSize="80px"
+		android:textStyle="bold"
+		android:textAlignment="center" />
 	<ScrollView
-		p1:minWidth="25px"
-		p1:minHeight="25px"
-		p1:layout_width="match_parent"
-		p1:layout_height="match_parent"
-		p1:id="@+id/scrollViewSelectBook">
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/scrollViewSelectBook">
 		<LinearLayout
-			p1:orientation="vertical"
-			p1:minWidth="25px"
-			p1:minHeight="25px"
-			p1:layout_width="match_parent"
-			p1:layout_height="wrap_content"
-			p1:id="@+id/linearLayoutSelectBook" >
+			android:orientation="vertical"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/linearLayoutSelectBook" >
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>
