@@ -1,53 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="#fff"
-	android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 	<LinearLayout
-		android:orientation="horizontal"
+		android:orientation="vertical"
 		android:layout_width="match_parent"
-		android:layout_height="50dp"
-		android:id="@+id/llLevelTop">
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true">
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal">
+			<ImageView
+				android:id="@+id/imgPrevLevel"
+				android:src="@drawable/btnarea"
+				android:layout_gravity="center_vertical"
+				android:layout_width="10dp"
+				android:layout_height="40dp"/>
+			<ImageView
+				android:id="@+id/imgLevel"
+				android:src="@drawable/btnarea"
+				android:layout_width="40dp"
+				android:layout_height="40dp"/>
+			<ImageView
+				android:id="@+id/imgNextLevel"
+				android:src="@drawable/btnarea"
+				android:layout_gravity="center_vertical"
+				android:layout_width="10dp"
+				android:layout_height="40dp"/>
+		</LinearLayout>
+		<ImageView
+			android:id="@+id/imgLastLevels"
+			android:src="@drawable/btnarea"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_marginTop="10dp"
+			android:layout_gravity="center_horizontal"/>
+		<ImageView
+			android:id="@+id/imgRandom"
+			android:src="@drawable/btnarea"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_marginTop="10dp"
+			android:layout_gravity="center_horizontal"/>
+		<ImageView
+			android:id="@+id/imgAllQuestions"
+			android:src="@drawable/btnarea"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_marginTop="10dp"
+			android:layout_gravity="center_horizontal"/>
 	</LinearLayout>
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-		<ImageView
-			android:id="@+id/imgPrevLevel"
-			android:src="@drawable/btnarea"
-			android:layout_gravity="center_vertical"
-			android:layout_width="10dp"
-			android:layout_height="40dp"/>
-		<ImageView
-			android:id="@+id/imgLevel"
-			android:src="@drawable/btnarea"
-			android:layout_width="10dp"
-			android:layout_height="40dp"/>
-		<ImageView
-			android:id="@+id/imgNextLevel"
-			android:src="@drawable/btnarea"
-			android:layout_gravity="center_vertical"
-			android:layout_width="10dp"
-			android:layout_height="40dp"/>
-	</LinearLayout>
-	<ImageView
-		android:id="@+id/imgLastLevels"
-		android:src="@drawable/btnarea"
-		android:layout_width="match_parent"
-		android:layout_height="40dp"
-		android:layout_marginTop="10dp"/>
-	<ImageView
-		android:id="@+id/imgRandom"
-		android:src="@drawable/btnarea"
-		android:layout_width="match_parent"
-		android:layout_height="40dp"
-		android:layout_marginTop="10dp"/>
-	<ImageView
-		android:id="@+id/imgAllQuestions"
-		android:src="@drawable/btnarea"
-		android:layout_width="match_parent"
-		android:layout_height="40dp"
-		android:layout_marginTop="10dp"/>
-</LinearLayout>
+</RelativeLayout>

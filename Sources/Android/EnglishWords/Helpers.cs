@@ -191,17 +191,40 @@ namespace EnglishWords
         }
 
         /// <summary>
+        /// Попытаться заполучить фоновый цвет
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        private static Color? TryGetBackgroundColor([NotNull]View view)
+        {
+            var tmpView = view;
+            while (tmpView != null)
+            {
+                var resultColor = (tmpView.Background as ColorDrawable)?.Color;
+                if (resultColor.HasValue)
+                    return resultColor;
+                tmpView = tmpView.Parent as View; 
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Назначить из Assets\svg SVG-картинку на ImageView
         /// </summary>
         /// <param name="imgView"></param>
         /// <param name="fileName"></param>
         /// <param name="wantedWidth"></param>
         /// <param name="wantedHeight"></param>
-        private static void AssignSvg([NotNull]ImageView imgView, string fileName, int wantedWidth, int wantedHeight)
+        /// <param name="preprocess"></param>
+        public static void AssignSvg([NotNull]ImageView imgView, string fileName, Action<XmlDocument> preprocess,
+            int? wantedWidth = null, int? wantedHeight = null)
         {
+            if (wantedWidth == null)
+                wantedWidth = imgView.Width;
+            if (wantedHeight == null)
+                wantedHeight = imgView.Height;
             const int bestQuality = 100;
-            var parent = (View)imgView.Parent;
-            var parentColor = (parent.Background as ColorDrawable)?.Color;
+            var parentColor = TryGetBackgroundColor(imgView);
             var viewActivity = (Activity)imgView.Context;
             using (var reader = new StreamReader(viewActivity.Assets.Open(Path.Combine("svg", Path.ChangeExtension(fileName, "svg").AssertNull()))))
             {
@@ -210,6 +233,7 @@ namespace EnglishWords
                 xmlDoc.DocumentElement.VoidAssertNull();
                 xmlDoc.DocumentElement.SetAttribute("width", wantedWidth.ToString());
                 xmlDoc.DocumentElement.SetAttribute("height", wantedHeight.ToString());
+                preprocess?.Invoke(xmlDoc);
                 if (parentColor.HasValue)
                 {
                     var bkColorRect = xmlDoc.CreateElement("rect");
@@ -224,7 +248,7 @@ namespace EnglishWords
                 {
                     xmlDoc.Save(alterStream);
                     alterStream.Seek(0, SeekOrigin.Begin);
-                    var svg = new SkiaSharp.Extended.Svg.SKSvg(new SKSize(wantedWidth, wantedHeight));
+                    var svg = new SkiaSharp.Extended.Svg.SKSvg(new SKSize(wantedWidth.Value, wantedHeight.Value));
                     svg.Load(alterStream);
                     using (var svgBitmap = new SKBitmap((int)svg.CanvasSize.Width, (int)svg.CanvasSize.Height))
                     {
@@ -276,7 +300,7 @@ namespace EnglishWords
         /// <returns></returns>
         private static int? ToScreen(this int? value, (double scaleX, double scaleY) scale, int? sourceForSign = null)
         {
-            return value == null ? (int?)null : value.Value.ToScreen(scale, sourceForSign);
+            return value?.ToScreen(scale, sourceForSign);
         }
 
         /// <summary>
@@ -290,17 +314,10 @@ namespace EnglishWords
         }
 
         /// <summary>
-        /// Заполучить параметры масштабирования экрана
+        /// Связанные рисунки и SVG
         /// </summary>
-        /// <param name="activity"></param>
-        /// <returns></returns>
-        public static (double scaleX, double scaleY, int screenWidth, int screenHeight) GetViewScale([NotNull]this Activity activity)
-        {
-            return (activity.Resources.DisplayMetrics.WidthPixels / 100.0, 
-                activity.Resources.DisplayMetrics.HeightPixels / 100.0, 
-                activity.Resources.DisplayMetrics.WidthPixels,
-                activity.Resources.DisplayMetrics.HeightPixels);
-        }
+        [NotNull]
+        private static readonly Dictionary<int, (string, Action<XmlDocument>)> _svgLinks = new Dictionary<int, (string, Action<XmlDocument>)>();
 
         /// <summary>
         /// Выставить размеры ImageView и заодно подгрузить Svg
@@ -311,54 +328,115 @@ namespace EnglishWords
         /// <param name="height"></param>
         /// <param name="leftMargin"></param>
         /// <param name="topMargin"></param>
-        public static void SetSvgBounds([NotNull]this ImageView imageView, string fileName, int width, int height,
-            int? leftMargin = null, int? topMargin = null)
+        /// <param name="preprocess"></param>
+        public static void LinkSvg([NotNull]this ImageView imageView, string fileName, int width, int height,
+            int? leftMargin = null, int? topMargin = null, Action<XmlDocument> preprocess = null)
         {
             var scale = GetViewScale(imageView);
             var realWidth = width.ToScreen(scale);
             var realHeight = height.ToScreen(scale);
             SetBoundsInternal(imageView, realWidth, realHeight, leftMargin.ToScreen(scale), topMargin.ToScreen(scale), null, null);
-            AssignSvg(imageView, fileName, realWidth, realHeight);
+            AssignSvg(imageView, fileName, preprocess, realWidth, realHeight);
+            _svgLinks[imageView.Id] = (fileName, preprocess);
         }
 
         /// <summary>
-        /// Выставить размеры ImageView и заодно подгрузить Svg
+        /// Переподгрузить Svg
         /// </summary>
         /// <param name="imageView"></param>
-        /// <param name="fileName"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="leftMargin"></param>
-        /// <param name="topMargin"></param>
-        public static void SetSvgBoundsWithDirectMargin([NotNull]this ImageView imageView, string fileName, int width, int height,
-            double? leftMargin = null, double? topMargin = null)
+        public static void UpdateSvg([NotNull]this ImageView imageView)
         {
-            var scale = GetViewScale(imageView);
-            var realWidth = width.ToScreen(scale);
-            var realHeight = height.ToScreen(scale);
-            SetBoundsInternal(imageView, realWidth, realHeight, leftMargin, topMargin, null, null);
-            AssignSvg(imageView, fileName, realWidth, realHeight);
+            if (_svgLinks.TryGetValue(imageView.Id, out var linkData))
+                AssignSvg(imageView, linkData.Item1, linkData.Item2);
         }
 
         /// <summary>
-        /// Выставить размеры ImageView и заодно подгрузить Svg
+        /// Атрибут, отвечающий за inline CSS стили
         /// </summary>
-        /// <param name="imageView"></param>
-        /// <param name="fileName"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="leftMargin"></param>
-        /// <param name="topMargin"></param>
-        public static void SetSvgBoundHorCentered([NotNull]this ImageView imageView, string fileName, int width, int height,
-            int? leftMargin = null, int? topMargin = null)
+        private const string CSS_STYLE_ATTR = "style";
+
+        /// <summary>
+        /// Вернуть значение css-свойства из атрибута style
+        /// Утилита работает по аналогии с jquery $.css() и создана для упрощения кода в мнемосхемах
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="style"></param>
+        /// <returns></returns>
+        public static string Css([NotNull]this XmlNode node, [NotNull]string style)
         {
-            var scale = GetViewScale(imageView);
-            var realWidth = width.ToScreen(scale);
-            var realHeight = height.ToScreen(scale);
-            var realLeftMargin = leftMargin.ToScreen(scale, width).GetValueOrDefault(0);
-            var extendedLeftMargin = (imageView.Resources.DisplayMetrics.WidthPixels - realWidth - realLeftMargin) / 2;
-            SetBoundsInternal(imageView, realWidth, realHeight, realLeftMargin + extendedLeftMargin, topMargin.ToScreen(scale, height), null, null);
-            AssignSvg(imageView, fileName, realWidth, realHeight);
+            var styleValue = ((XmlElement)node).GetAttribute(CSS_STYLE_ATTR);
+            int startIndex = -1;
+            string style2 = string.Empty;
+            foreach (var possiblePostfix in new[] { " ", ":" })
+            {
+                style2 = style + possiblePostfix;
+                startIndex = styleValue.IndexOf(style2, StringComparison.InvariantCultureIgnoreCase);
+                if (startIndex > -1)
+                    break;
+            }
+            if (startIndex > -1)
+            {
+                var endIndex = styleValue.IndexOf(";", startIndex + style2.Length, StringComparison.InvariantCultureIgnoreCase);
+                if (endIndex == -1)
+                    endIndex = styleValue.Length;
+                var styleItemValue = styleValue.Substring(startIndex, endIndex - startIndex).Trim(' ', ';');
+                var sepIndex = styleItemValue.IndexOf(":", StringComparison.InvariantCultureIgnoreCase);
+                if (sepIndex > -1)
+                    return styleItemValue.Substring(sepIndex + 1);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Записать значение css-свойства в атрибут style
+        /// Утилита работает по аналогии с jquery $.css() и создана для упрощения кода в мнемосхемах
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="style"></param>
+        /// <param name="value"></param>
+        public static void Css([NotNull]this XmlNode node, [NotNull]string style, string value)
+        {
+            var styleValue = ((XmlElement)node).GetAttribute(CSS_STYLE_ATTR);
+            int startIndex = -1;
+            string style2 = string.Empty;
+            foreach (var possiblePostfix in new[] { " ", ":" })
+            {
+                style2 = style + possiblePostfix;
+                startIndex = styleValue.IndexOf(style2, StringComparison.InvariantCultureIgnoreCase);
+                if (startIndex > -1)
+                    break;
+            }
+            string resultStyle;
+            if (startIndex > -1)
+            {
+                var endIndex = styleValue.IndexOf(";", startIndex + style2.Length, StringComparison.InvariantCultureIgnoreCase);
+                if (endIndex == -1)
+                    endIndex = styleValue.Length;
+                var styleItemValue = styleValue.Substring(startIndex, endIndex - startIndex).Trim(' ', ';');
+                var newStyleItemValue = string.IsNullOrEmpty(value) ? null : $"{style}: {value};";
+                resultStyle = styleValue.Replace(styleItemValue, newStyleItemValue).Trim(';');
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(value))
+                    resultStyle = styleValue;
+                else
+                    resultStyle = $"{styleValue};{style}: {value}".Trim(';');
+            }
+            if (resultStyle != styleValue)
+                ((XmlElement)node).SetAttribute(CSS_STYLE_ATTR, resultStyle);
+        }
+
+        /// <summary>
+        /// Получить узел по идентификатору
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="nodeId"></param>
+        /// <returns></returns>
+        [NotNull]
+        public static XmlNode Get([NotNull]this XmlDocument doc, [NotNull]string nodeId)
+        {
+            return doc.SelectSingleNode($"//*[@id='{nodeId}']").AssertNull();
         }
     }
 }

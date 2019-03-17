@@ -10,7 +10,7 @@
    viewBox="0 0 100 50"
    version="1.1"
    id="svg14"
-   sodipodi:docname="activityMainBtnStart.svg"
+   sodipodi:docname="activitySelectLevelAll.svg"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
   <metadata
      id="metadata20">
@@ -24,7 +24,15 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs18" />
+     id="defs18">
+    <pattern
+       y="0"
+       x="0"
+       height="6"
+       width="6"
+       patternUnits="userSpaceOnUse"
+       id="EMFhbasepattern" />
+  </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -38,15 +46,15 @@
      inkscape:window-height="961"
      id="namedview16"
      showgrid="false"
-     inkscape:zoom="5.7982756"
-     inkscape:cx="69.838962"
-     inkscape:cy="7.2730228"
+     inkscape:zoom="4.1"
+     inkscape:cx="49.399739"
+     inkscape:cy="7.8218219"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg14" />
   <rect
-     style="fill:#2a2aff"
+     style="fill:#d38d5f"
      x="1"
      y="1"
      width="96"
@@ -54,29 +62,23 @@
      rx="10"
      ry="10"
      id="rect2" />
-  <g
-     transform="matrix(0.2,0,0,0.2,8.2768369,11.19899)"
-     id="g10">
-    <g
-       transform="translate(0,-924.36)"
-       id="g6">
-      <path
-         d="m 128.29,64.865 a 63.766,63.892 0 1 1 -127.53,0 63.766,63.892 0 1 1 127.53,0 z"
-         style="fill:none;stroke:#ffffff;stroke-width:1.99469995;stroke-linecap:round;stroke-linejoin:round"
-         transform="matrix(0.98823,0,0,0.98628,0.23592,924.39)"
-         id="path4"
-         inkscape:connector-curvature="0" />
-    </g>
-    <path
-       d="M 42.569,28.426 105.43,64.72 42.569,101.01 Z"
-       style="color:#ffffff;fill:#ffffff"
-       id="path8"
-       inkscape:connector-curvature="0" />
-  </g>
   <text
-     x="62.414528"
-     y="27.234375"
+     x="60.763405"
+     y="22.727551"
      alignment-baseline="middle"
      id="text12"
-     style="text-anchor:middle;fill:#ffffff">Старт</text>
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.23427105px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;stroke-width:0.76952255"
+     transform="scale(1.0394909,0.96200938)">Все</text>
+  <text
+     x="60.763405"
+     y="33.122459"
+     alignment-baseline="middle"
+     id="text8"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.23427105px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;stroke-width:0.76952255"
+     transform="scale(1.0394909,0.96200938)">слова</text>
+  <path
+     id="path820"
+     d="m 12.648101,13.400247 c 1.205654,1.02705 8.260057,8.841758 10.351397,11.09879 -2.09134,2.058249 -7.931279,8.253688 -9.535908,10.100724 h 21.228882 v -5.358893 c -1.885265,1.014637 -3.130381,2.120372 -4.958676,3.25095 l -10.798577,0.04141 8.431056,-8.87903 v -0.07453 L 19.60161,15.466781 c 2.433331,-0.08697 9.579779,0.120098 10.724085,0.04554 1.175003,0.923514 2.823503,2.265313 4.217717,3.168124 v -5.280207 z"
+     style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:0.9417035px;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     inkscape:connector-curvature="0" />
 </svg>

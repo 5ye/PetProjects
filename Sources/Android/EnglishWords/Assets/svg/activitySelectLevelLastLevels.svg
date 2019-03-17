@@ -10,7 +10,7 @@
    viewBox="0 0 100 50"
    version="1.1"
    id="svg14"
-   sodipodi:docname="activityMainBtnStart.svg"
+   sodipodi:docname="activitySelectLevelLastLevels.svg"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
   <metadata
      id="metadata20">
@@ -24,7 +24,15 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs18" />
+     id="defs18">
+    <pattern
+       y="0"
+       x="0"
+       height="6"
+       width="6"
+       patternUnits="userSpaceOnUse"
+       id="EMFhbasepattern" />
+  </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -39,14 +47,14 @@
      id="namedview16"
      showgrid="false"
      inkscape:zoom="5.7982756"
-     inkscape:cx="69.838962"
+     inkscape:cx="43.834078"
      inkscape:cy="7.2730228"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg14" />
   <rect
-     style="fill:#2a2aff"
+     style="fill:#d4aa00"
      x="1"
      y="1"
      width="96"
@@ -54,29 +62,68 @@
      rx="10"
      ry="10"
      id="rect2" />
-  <g
-     transform="matrix(0.2,0,0,0.2,8.2768369,11.19899)"
-     id="g10">
-    <g
-       transform="translate(0,-924.36)"
-       id="g6">
-      <path
-         d="m 128.29,64.865 a 63.766,63.892 0 1 1 -127.53,0 63.766,63.892 0 1 1 127.53,0 z"
-         style="fill:none;stroke:#ffffff;stroke-width:1.99469995;stroke-linecap:round;stroke-linejoin:round"
-         transform="matrix(0.98823,0,0,0.98628,0.23592,924.39)"
-         id="path4"
-         inkscape:connector-curvature="0" />
-    </g>
-    <path
-       d="M 42.569,28.426 105.43,64.72 42.569,101.01 Z"
-       style="color:#ffffff;fill:#ffffff"
-       id="path8"
-       inkscape:connector-curvature="0" />
-  </g>
   <text
-     x="62.414528"
-     y="27.234375"
+     x="60.763405"
+     y="22.727551"
      alignment-baseline="middle"
      id="text12"
-     style="text-anchor:middle;fill:#ffffff">Старт</text>
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.23427105px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;stroke-width:0.76952255"
+     transform="scale(1.0394909,0.96200938)">Последние</text>
+  <text
+     x="60.763405"
+     y="33.122459"
+     alignment-baseline="middle"
+     id="text8"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.23427105px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;stroke-width:0.76952255"
+     transform="scale(1.0394909,0.96200938)">слова</text>
+  <g
+     id="g900"
+     transform="matrix(0.21920148,0,0,0.21949868,6.1861871,8.4301333)"
+     style="stroke:#d4aa00">
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#d4aa00;stroke-width:2.9599781px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 30.829987,3.4931642 H 116.98935 V 117.81231 H 30.829987 Z"
+       id="path857" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#d4aa00;stroke-width:2.9599781px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 19.870068,17.653059 H 106.02943 V 131.97221 H 19.870068 Z"
+       id="path859" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#d4aa00;stroke-width:2.9599781px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 8.9101497,30.132967 H 95.069511 V 144.45212 H 8.9101497 Z"
+       id="path861" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#d4aa00;stroke-width:2.07998466px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 21.630055,64.612712 h 60.71955"
+       id="path863" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#d4aa00;stroke-width:2.07998466px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 21.630055,80.292595 h 60.71955"
+       id="path865" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#d4aa00;stroke-width:2.07998466px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 21.630055,95.89248 h 60.71955"
+       id="path867" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#d4aa00;stroke-width:2.07998466px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 21.630055,111.57236 h 60.71955"
+       id="path869" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#d4aa00;stroke-width:2.07998466px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 21.630055,127.25224 h 60.71955"
+       id="path871" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#d4aa00;stroke-width:2.07998466px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 21.630055,48.932828 h 60.71955"
+       id="path873" />
+  </g>
 </svg>
