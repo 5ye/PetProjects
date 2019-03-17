@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
+using Android.Views;
 using EnglishWords.Activities;
 
 namespace EnglishWords.Activities
@@ -14,6 +15,7 @@ namespace EnglishWords.Activities
         /// <param name="savedInstanceState"></param>
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            RequestWindowFeature(WindowFeatures.NoTitle);
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.layoutSplash);
         }

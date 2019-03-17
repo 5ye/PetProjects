@@ -1,0 +1,5 @@
+<svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+  <rect style="fill: red" x="40" y="15" width="20" height="20"/>
+  <text x="50" y="25" fill="red" text-anchor="middle">Проверка</text>
+  <rect style="fill-opacity: 0; stroke: green; stroke-width: 3" x="1" y="1" width="98" height="48" rx="20" ry="20"/>
+</svg>

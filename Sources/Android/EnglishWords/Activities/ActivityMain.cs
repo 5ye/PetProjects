@@ -1,14 +1,21 @@
-﻿using Android.App;
+﻿using System.IO;
+using Android.App;
+using Android.Content.Res;
+using Android.Graphics;
 using Android.OS;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using JetBrains.Annotations;
+using SkiaSharp;
+using Path = Android.Graphics.Path;
 
 namespace EnglishWords.Activities
 {
-    [Activity(Label = "Учим английский")]
+    [Activity]
     public class ActivityMain : Activity
     {
+        /*
         /// <summary>
         /// Запустить тест на исполнение
         /// </summary>
@@ -18,21 +25,7 @@ namespace EnglishWords.Activities
             RuntimeEnvironment.ActiveTest = test;
             StartActivity(typeof(ActivityQuestions));
         }
-
-        /// <summary>
-        /// Изменить направление перевода
-        /// </summary>
-        private void InvertTestKind()
-        {
-            var newDirection = TestsManager.Single.CurrentTestKind == TestKind.WordIsEnglish ? 
-                TestKind.WordIsRussian : 
-                TestKind.WordIsEnglish;
-            TestsManager.Single.SetCurrentTestKind(newDirection, true);
-            var imgSetDirection = FindViewById<ImageView>(Resource.Id.imageViewDirect);
-            imgSetDirection.SetImageResource(TestsManager.Single.CurrentTestKind == TestKind.WordIsEnglish ?
-                Resource.Drawable.engToRus :
-                Resource.Drawable.rusToEng);
-        }
+        */
 
         /// <summary>
         /// При создании Activity
@@ -40,37 +33,20 @@ namespace EnglishWords.Activities
         /// <param name="savedInstanceState"></param>
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            RequestWindowFeature(WindowFeatures.NoTitle);
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.layoutMain);
-            if (!RuntimeEnvironment.BookSelected)
-                StartActivity(typeof(ActivitySelectBook));
-            else if (!RuntimeEnvironment.ChapterSelected)
-                StartActivity(typeof(ActivitySelectChapter));
-            var imgSetDirection = FindViewById<ImageView>(Resource.Id.imageViewDirect);
-            imgSetDirection.SetImageResource(TestsManager.Single.CurrentTestKind == TestKind.WordIsEnglish ?
-                Resource.Drawable.engToRus :
-                Resource.Drawable.rusToEng);
-            imgSetDirection.Click += (sender, args) => InvertTestKind();
-            var btnSelectBook = FindViewById<Button>(Resource.Id.buttonSelectBook);
-            btnSelectBook.Click += (sender, args) => StartActivity(typeof(ActivitySelectBook));
-            if (RuntimeEnvironment.BookSelected)
-                btnSelectBook.Text = TestsManager.Single.CurrentBook.Caption;
-            var btnSelectChapter = FindViewById<Button>(Resource.Id.buttonSelectChapter);
-            btnSelectChapter.Click += (sender, args) => StartActivity(typeof(ActivitySelectChapter));
-            if (RuntimeEnvironment.ChapterSelected)
-                btnSelectChapter.Text = TestsManager.Single.CurrentBook.CurrentChapter.Caption;
-            var btnCurrentChapter = FindViewById<Button>(Resource.Id.buttonCurrentChapter);
-            btnCurrentChapter.Click += (sender, args) =>
-                StartTest(TestsManager.Single.CurrentBook.CurrentChapter.CreateTest());
-            var btnLastChapters = FindViewById<Button>(Resource.Id.buttonLastChapters);
-            btnLastChapters.Click += (sender, args) =>
-                StartTest(TestsManager.Single.CurrentBook.CreateTestLastChapters(3));
-            var btn20Words = FindViewById<Button>(Resource.Id.button20Words);
-            btn20Words.Click += (sender, args) =>
-                StartTest(TestsManager.Single.CurrentBook.CreateTestRandomWords(20));
-            var btnAllWords = FindViewById<Button>(Resource.Id.buttonAllWords);
-            btnAllWords.Click += (sender, args) =>
-                StartTest(TestsManager.Single.CurrentBook.CreateTestAllChapters());
+
+            var layoutTop = FindViewById<LinearLayout>(Resource.Id.llTop);
+            layoutTop.SetBoundsByHeight(58/2);
+
+            var imgStart = FindViewById<ImageView>(Resource.Id.imgStart);
+            imgStart.Click += (sender, args) => StartActivity(typeof(ActivitySelectLevel));
+            imgStart.SetSvgBoundHorCentered("activityMainBtnStart", 40, 20);
+
+            var imgSettings = FindViewById<ImageView>(Resource.Id.imgSettings);
+            imgSettings.Click += (sender, args) => StartActivity(typeof(ActivitySelectBook));
+            imgSettings.SetSvgBoundHorCentered("activityMainBtnSettings", 40, 20, topMargin: 2);
         }
 
         /// <summary>
@@ -79,8 +55,6 @@ namespace EnglishWords.Activities
         public override void OnBackPressed()
         {
             FinishAffinity();
-            // JavaSystem.Exit(0);
         }
     }
-
 }

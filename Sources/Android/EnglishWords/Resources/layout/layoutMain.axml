@@ -1,98 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:background="#fff"
+	android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-	android:layout_marginLeft="10dp"		
-	android:layout_marginRight="10dp">
-	<TextView
-		android:text="Настройки"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="5dp"
-		android:textColor="#ff3ed311"
-		android:textSize="20dp"
-		android:textStyle="bold"
-		android:textAlignment="center" 
-		android:id="@+id/textSettings"/>
+    android:layout_height="match_parent">
 	<LinearLayout
 		android:orientation="horizontal"
-		android:minWidth="25px"
-		android:minHeight="25px"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:id="@+id/linearLayoutDirection">
-		<ImageView
-			android:src="@drawable/engToRus"
-			android:layout_width="80dp"
-			android:layout_height="60dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginLeft="14dp"
-			android:id="@+id/imageViewDirect"/>
-		<Button
-			android:text="Книга"
-			android:layout_width="125dp"
-			android:layout_height="match_parent"
-			android:layout_marginTop="5dp"
-			android:layout_marginLeft="10dp"
-			android:id="@+id/buttonSelectBook"/>
-		<Button
-			android:text="Глава"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_marginTop="5dp"
-			android:layout_marginRight="10dp"
-			android:id="@+id/buttonSelectChapter"/>
+		android:layout_height="50dp"
+		android:id="@+id/llTop">
 	</LinearLayout>
-	<TextView
-		android:text="Тесты"
-		android:textAppearance="?android:attr/textAppearanceMedium"
+	<ImageView
+		android:id="@+id/imgStart"
+		android:src="@drawable/btnarea"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="25dp"
-		android:layout_marginBottom="5dp"
-		android:textColor="#ff3ed311"
-		android:textSize="20dp"
-		android:textStyle="bold"
-		android:textAlignment="center" 
-		android:id="@+id/textTests"/>
-	<LinearLayout
-		android:orientation="horizontal"
-		android:minWidth="25px"
-		android:minHeight="25px"
+		android:layout_height="40dp"/>
+	<ImageView
+		android:id="@+id/imgSettings"
+		android:src="@drawable/btnarea"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
-		<Button
-			android:text="Текущая глава"
-			android:layout_width="175dp"
-			android:layout_height="180dp"
-			android:layout_marginLeft="10dp"
-			android:id="@+id/buttonCurrentChapter"/>
-		<Button
-			android:text="Последние 3 главы"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_marginRight="10dp"
-			android:id="@+id/buttonLastChapters" />
-	</LinearLayout>
-	<LinearLayout
-		android:orientation="horizontal"
-		android:minWidth="25px"
-		android:minHeight="25px"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
-		<Button
-			android:text="Случайные 20 слов"
-			android:layout_width="175dp"
-			android:layout_height="180dp"
-			android:layout_marginLeft="10dp"
-			android:id="@+id/button20Words"/>
-		<Button
-			android:text="Все слова"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_marginRight="10dp"
-			android:id="@+id/buttonAllWords" />
-	</LinearLayout>
+		android:layout_height="40dp"
+		android:layout_marginTop="10dp"/>
 </LinearLayout>
