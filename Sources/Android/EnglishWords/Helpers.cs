@@ -224,7 +224,6 @@ namespace EnglishWords
             if (wantedHeight == null)
                 wantedHeight = imgView.Height;
             const int bestQuality = 100;
-            var parentColor = TryGetBackgroundColor(imgView);
             var viewActivity = (Activity)imgView.Context;
             using (var reader = new StreamReader(viewActivity.Assets.Open(Path.Combine("svg", Path.ChangeExtension(fileName, "svg").AssertNull()))))
             {
@@ -234,36 +233,18 @@ namespace EnglishWords
                 xmlDoc.DocumentElement.SetAttribute("width", wantedWidth.ToString());
                 xmlDoc.DocumentElement.SetAttribute("height", wantedHeight.ToString());
                 preprocess?.Invoke(xmlDoc);
-                if (parentColor.HasValue)
-                {
-                    var bkColorRect = xmlDoc.CreateElement("rect");
-                    bkColorRect.SetAttribute("style", $"fill: {parentColor.Value.ToHtmlValue()}");
-                    bkColorRect.SetAttribute("x", "0");
-                    bkColorRect.SetAttribute("y", "0");
-                    bkColorRect.SetAttribute("width", wantedWidth.ToString());
-                    bkColorRect.SetAttribute("height", wantedHeight.ToString());
-                    xmlDoc.DocumentElement.AssertNull().InsertAfter(bkColorRect, null);
-                }
                 using (var alterStream = new MemoryStream())
                 {
                     xmlDoc.Save(alterStream);
                     alterStream.Seek(0, SeekOrigin.Begin);
                     var svg = new SkiaSharp.Extended.Svg.SKSvg(new SKSize(wantedWidth.Value, wantedHeight.Value));
                     svg.Load(alterStream);
-                    using (var svgBitmap = new SKBitmap((int)svg.CanvasSize.Width, (int)svg.CanvasSize.Height))
+                    using (var image = SKImage.FromPicture(svg.Picture, new SKSizeI((int)svg.CanvasSize.Width, (int)svg.CanvasSize.Height)))
+                    using (var data = image.Encode(SKEncodedImageFormat.Png, bestQuality))
                     {
-                        using (var canvas = new SKCanvas(svgBitmap))
-                        {
-                            canvas.DrawPicture(svg.Picture);
-                            canvas.Flush();
-                            canvas.Save();
-                        }
-                        using (var image = SKImage.FromBitmap(svgBitmap))
-                        using (var data = image.Encode(SKEncodedImageFormat.Png, bestQuality))
-                        {
-                            var bmpArray = data.ToArray();
-                            imgView.SetImageBitmap(BitmapFactory.DecodeByteArray(bmpArray, 0, bmpArray.Length));
-                        }
+                        var bmpArray = data.ToArray();
+                        // File.WriteAllBytes("//mnt//shared//AndrOut//1.png", bmpArray);
+                        imgView.SetImageBitmap(BitmapFactory.DecodeByteArray(bmpArray, 0, bmpArray.Length));
                     }
                 }
             }

@@ -38,12 +38,18 @@ namespace EnglishWords.Activities
             SetContentView(Resource.Layout.layoutMain);
 
             var imgStart = FindViewById<ImageView>(Resource.Id.imgStart);
-            imgStart.Click += (sender, args) => StartActivity(typeof(ActivitySelectLevel));
-            imgStart.LinkSvg("activityMainBtnStart", 40, 20);
+            if (imgStart != null)
+            {
+                imgStart.Click += (sender, args) => StartActivity(typeof(ActivitySelectLevel));
+                imgStart.LinkSvg("activityMainBtnStart", 40, 20);
+            }
 
             var imgSettings = FindViewById<ImageView>(Resource.Id.imgSettings);
-            imgSettings.Click += (sender, args) => StartActivity(typeof(ActivitySelectBook));
-            imgSettings.LinkSvg("activityMainBtnSettings", 40, 20, topMargin: 2);
+            if (imgSettings != null)
+            {
+                imgSettings.Click += (sender, args) => StartActivity(typeof(ActivitySelectBook));
+                imgSettings.LinkSvg("activityMainBtnSettings", 40, 20, topMargin: 2);
+            }
         }
 
         /// <summary>
